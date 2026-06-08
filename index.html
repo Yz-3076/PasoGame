@@ -495,6 +495,8 @@ function show(id){
 }
 
 function showHome(){ show('screen-home'); }
+window.showHome = showHome;
+window.drawCard = drawCard;
 
 window.goToLobby = function(){ show('screen-lobby'); loadLobby(); }
 
@@ -506,30 +508,49 @@ window.goToLeaderboard = async function(){
   document.getElementById('lb-list').innerHTML='<div class="lb-loading">Loading...</div>';
   try {
     const snap = await get(ref(db,'paso/players'));
-    if(!snap.exists()){ document.getElementById('lb-list').innerHTML='<div class="lb-loading">No players yet.</div>'; return; }
+    if(!snap.exists()){
+      document.getElementById('lb-list').innerHTML='<div class="lb-loading">No players yet.</div>';
+      return;
+    }
     const players = Object.entries(snap.val())
       .map(([name,v])=>({name,points:v.points||0,wins:v.wins||0,losses:v.losses||0}))
+      .filter(p => p.wins>0 || p.losses>0 || p.points>0)
       .sort((a,b)=>b.points-a.points)
       .slice(0,50);
+
+    if(players.length===0){
+      document.getElementById('lb-list').innerHTML='<div class="lb-loading">No ranked players yet.</div>';
+      return;
+    }
+
     const list = document.getElementById('lb-list');
     list.innerHTML='';
     players.forEach((p,i)=>{
-      const tier=tierOf(p.points);
+      const tier = tierOf(p.points);
       const rankIcon = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
       const rankClass = i===0?'gold':i===1?'silver':i===2?'bronze-r':'';
-      const row=document.createElement('div');
-      row.className='lb-row';
-      row.innerHTML=`
-        <div class="lb-rank \${rankClass}">\${rankIcon}</div>
-        <div class="lb-tier">\${tier.icon}</div>
-        <div class="lb-name">\${p.name}</div>
-        <div style="text-align:right;">
-          <div class="lb-pts">\${p.points} pts</div>
-          <div class="lb-wl">\${p.wins}W · \${p.losses}L</div>
-        </div>`;
+      const row = document.createElement('div');
+      row.className = 'lb-row';
+      const rankDiv = document.createElement('div');
+      rankDiv.className = 'lb-rank ' + rankClass;
+      rankDiv.textContent = rankIcon;
+      const tierDiv = document.createElement('div');
+      tierDiv.className = 'lb-tier';
+      tierDiv.textContent = tier.icon;
+      const nameDiv = document.createElement('div');
+      nameDiv.className = 'lb-name';
+      nameDiv.textContent = p.name;
+      const statsDiv = document.createElement('div');
+      statsDiv.style.textAlign = 'right';
+      statsDiv.innerHTML = '<div class="lb-pts">' + p.points + ' pts</div><div class="lb-wl">' + p.wins + 'W · ' + p.losses + 'L</div>';
+      row.appendChild(rankDiv);
+      row.appendChild(tierDiv);
+      row.appendChild(nameDiv);
+      row.appendChild(statsDiv);
       list.appendChild(row);
     });
   } catch(e){
+    console.error(e);
     document.getElementById('lb-list').innerHTML='<div class="lb-loading">Failed to load.</div>';
   }
 };
