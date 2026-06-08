@@ -639,7 +639,7 @@ function renderPH(hand,click){
 }
 function renderTC(tcs,click){
   const a=document.getElementById("tcards");a.innerHTML="";
-  if(!tcs.length){a.innerHTML="<span style="font-family:Cinzel,serif;font-size:9px;letter-spacing:2px;color:rgba(200,0,0,0.18);">EMPTY</span>";return;}
+  if(!tcs.length){a.innerHTML="<span style='font-family:Cinzel,serif;font-size:9px;letter-spacing:2px;color:rgba(200,0,0,0.18);'>EMPTY</span>";return;}
   tcs.forEach((card,i)=>{const c=document.createElement("div");c.className="card"+(click?" tc":"");if(selT.includes(i))c.classList.add("sel");c.id="t"+i;c.innerHTML=fr(card);if(click)c.onclick=()=>selTable(i);a.appendChild(c);});
 }
 function selHand(idx){if(animating)return;selH=selH===idx?-1:idx;selT=[];renderGame(G);}
@@ -760,12 +760,12 @@ function backToLobby(){if(roomUnsub){roomUnsub();roomUnsub=null;}closeModals();s
 
 async function goToLeaderboard(){
   show("screen-leaderboard");
-  document.getElementById("lb-list").innerHTML="<div class="lb-empty">Loading...</div>";
+  document.getElementById("lb-list").innerHTML="<div class='lb-empty'>Loading...</div>";
   try{
     const snap=await get(ref(db,"paso/players"));
-    if(!snap.exists()){document.getElementById("lb-list").innerHTML="<div class="lb-empty">No players yet.</div>";return;}
+    if(!snap.exists()){document.getElementById("lb-list").innerHTML="<div class='lb-empty'>No players yet.</div>";return;}
     const players=Object.entries(snap.val()).map(([name,v])=>({name,points:v.points||0,wins:v.wins||0,losses:v.losses||0})).filter(p=>p.wins>0||p.losses>0||p.points>0).sort((a,b)=>b.points-a.points).slice(0,50);
-    if(!players.length){document.getElementById("lb-list").innerHTML="<div class="lb-empty">No ranked players yet.</div>";return;}
+    if(!players.length){document.getElementById("lb-list").innerHTML="<div class='lb-empty'>No ranked players yet.</div>";return;}
     const list=document.getElementById("lb-list");list.innerHTML="";
     players.forEach((p,i)=>{
       const t=tierOf(p.points),ri=i===0?"🥇":i===1?"🥈":i===2?"🥉":(i+1);
@@ -777,11 +777,11 @@ async function goToLeaderboard(){
       const wl=document.createElement("div");wl.className="lb-wl";wl.textContent=`${p.wins}W · ${p.losses}L`;
       st.appendChild(pp);st.appendChild(wl);row.appendChild(rk);row.appendChild(nm);row.appendChild(st);list.appendChild(row);
     });
-  }catch(e){document.getElementById("lb-list").innerHTML="<div class="lb-empty">Failed to load.</div>";}
+  }catch(e){document.getElementById("lb-list").innerHTML="<div class='lb-empty'>Failed to load.</div>";}
 }
 
 function showSuher(){const el=document.createElement("div");el.className="suher";el.textContent="✦ SUHÈR +5 ✦";document.body.appendChild(el);setTimeout(()=>el.remove(),2100);}
-function showPenalty(){const el=document.createElement("div");el.className="penalty";el.innerHTML="⚠ ILLEGAL DROP<br><span style="font-size:11px;letter-spacing:1px;">Valid combo — auto-captured!</span>";document.body.appendChild(el);setTimeout(()=>el.remove(),2300);}
+function showPenalty(){const el=document.createElement("div");el.className="penalty";el.innerHTML="⚠ ILLEGAL DROP<br><span style='font-size:11px;letter-spacing:1px;'>Valid combo — auto-captured!</span>";document.body.appendChild(el);setTimeout(()=>el.remove(),2300);}
 function setStat(msg){const el=document.getElementById("gstatus");if(el)el.textContent=msg;}
 
 function fr(c){const col=isRed(c.s)?"red":"blk";return`<div class="cf"><span class="rtl ${col}">${c.r}</span><span class="smid2 ${col}">${c.s}</span><span class="rbr ${col}">${c.r}</span></div>`;}
