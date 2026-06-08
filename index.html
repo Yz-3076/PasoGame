@@ -1,0 +1,1144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paso</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:#050f07;font-family:'Crimson Text',serif;min-height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+
+/* ── SCREENS ── */
+.screen{display:none;width:100vw;height:100vh;align-items:center;justify-content:center;flex-direction:column;}
+
+/* ── HOME SCREEN ── */
+#screen-home{background:radial-gradient(ellipse 80% 60% at 50% 40%,#1c4a28,#071a0d);gap:0;}
+.home-wrap{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;gap:0;}
+.home-logo{font-family:'Cinzel',serif;font-size:52px;letter-spacing:16px;color:#d4af37;text-shadow:0 0 60px rgba(212,175,55,0.4),0 0 120px rgba(212,175,55,0.15);margin-bottom:4px;}
+.home-tagline{font-family:'Cinzel',serif;font-size:10px;letter-spacing:6px;color:rgba(212,175,55,0.35);margin-bottom:48px;}
+.home-cards-deco{display:flex;gap:-8px;margin-bottom:40px;position:relative;height:110px;width:220px;}
+.deco-card{position:absolute;width:64px;height:90px;border-radius:8px;background:repeating-linear-gradient(45deg,#1a237e 0px,#1a237e 5px,#283593 5px,#283593 10px);border:3px solid #fffef8;box-shadow:0 8px 24px rgba(0,0,0,0.6);}
+.home-menu{display:flex;flex-direction:column;gap:12px;width:100%;max-width:300px;}
+.home-btn{padding:15px 24px;border-radius:12px;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;transition:transform 0.15s,filter 0.15s,box-shadow 0.15s;display:flex;align-items:center;justify-content:center;gap:10px;}
+.home-btn:hover{transform:translateY(-3px);filter:brightness(1.12);box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.home-btn:active{transform:translateY(-1px);}
+.home-btn-play{background:linear-gradient(135deg,#b8860b,#d4af37);color:#1a0f00;box-shadow:0 4px 20px rgba(212,175,55,0.3);}
+.home-btn-leaderboard{background:rgba(255,255,255,0.07);color:#c8dde8;border:1px solid rgba(255,255,255,0.12);}
+.home-btn-rules{background:transparent;color:rgba(212,175,55,0.45);border:1px solid rgba(212,175,55,0.12);font-size:10px;letter-spacing:2px;padding:10px;}
+.home-version{font-family:'Cinzel',serif;font-size:8px;letter-spacing:3px;color:rgba(212,175,55,0.15);margin-top:32px;}
+
+/* ── LEADERBOARD ── */
+#screen-leaderboard{background:radial-gradient(ellipse 80% 60% at 50% 40%,#1c4a28,#071a0d);}
+.lb-box{background:rgba(0,0,0,0.5);border:1px solid rgba(212,175,55,0.18);border-radius:20px;padding:36px 40px;width:420px;max-height:80vh;display:flex;flex-direction:column;gap:20px;backdrop-filter:blur(8px);box-shadow:0 24px 64px rgba(0,0,0,0.6);}
+.lb-title{font-family:'Cinzel',serif;font-size:18px;letter-spacing:6px;color:#d4af37;text-align:center;}
+.lb-list{display:flex;flex-direction:column;gap:8px;overflow-y:auto;max-height:50vh;padding-right:4px;}
+.lb-list::-webkit-scrollbar{width:3px;}
+.lb-list::-webkit-scrollbar-track{background:rgba(255,255,255,0.03);}
+.lb-list::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.2);border-radius:2px;}
+.lb-row{display:flex;align-items:center;gap:12px;padding:10px 14px;border-radius:10px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);transition:background 0.2s;}
+.lb-row:hover{background:rgba(255,255,255,0.07);}
+.lb-rank{font-family:'Cinzel',serif;font-size:13px;color:rgba(212,175,55,0.4);width:24px;text-align:center;flex-shrink:0;}
+.lb-rank.gold{color:#d4af37;font-size:16px;}
+.lb-rank.silver{color:#c0c0c0;font-size:16px;}
+.lb-rank.bronze-r{color:#cd7f32;font-size:16px;}
+.lb-name{font-family:'Cinzel',serif;font-size:12px;color:#e8dfc8;flex:1;letter-spacing:1px;}
+.lb-tier{font-size:14px;}
+.lb-pts{font-family:'Cinzel',serif;font-size:13px;color:#d4af37;text-align:right;}
+.lb-wl{font-family:'Cinzel',serif;font-size:9px;color:rgba(255,255,255,0.25);text-align:right;letter-spacing:1px;}
+.lb-loading{font-family:'Cinzel',serif;font-size:11px;letter-spacing:3px;color:rgba(212,175,55,0.3);text-align:center;padding:24px;}
+
+/* ── RULES MODAL ── */
+.rules-modal{position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:10000;display:none;align-items:center;justify-content:center;backdrop-filter:blur(4px);}
+.rules-modal.open{display:flex;}
+.rules-box{background:#0a1f0e;border:1px solid rgba(212,175,55,0.2);border-radius:20px;padding:36px 40px;width:480px;max-height:80vh;overflow-y:auto;display:flex;flex-direction:column;gap:14px;}
+.rules-box::-webkit-scrollbar{width:3px;}
+.rules-box::-webkit-scrollbar-thumb{background:rgba(212,175,55,0.2);}
+.rules-title{font-family:'Cinzel',serif;font-size:16px;letter-spacing:5px;color:#d4af37;text-align:center;}
+.rules-section{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:rgba(212,175,55,0.5);margin-top:8px;}
+.rules-text{font-family:'Crimson Text',serif;font-size:14px;color:#c8dde8;line-height:1.7;}
+.rules-close{background:rgba(255,255,255,0.07);border:1px solid rgba(255,255,255,0.12);color:#c8dde8;font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;padding:10px 24px;border-radius:20px;cursor:pointer;align-self:center;margin-top:8px;}
+
+/* ── LOBBY ── */
+#screen-lobby{background:radial-gradient(ellipse 80% 60% at 50% 40%,#1c4a28,#071a0d);}
+.lobby-box{background:rgba(0,0,0,0.5);border:1px solid rgba(212,175,55,0.2);border-radius:20px;padding:40px 44px;width:370px;display:flex;flex-direction:column;align-items:center;gap:16px;backdrop-filter:blur(8px);box-shadow:0 24px 64px rgba(0,0,0,0.6);}
+.game-logo{font-family:'Cinzel',serif;font-size:38px;letter-spacing:12px;color:#d4af37;text-shadow:0 0 30px rgba(212,175,55,0.3);}
+.logo-sub{font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;color:rgba(212,175,55,0.35);margin-top:-10px;}
+.divider{width:100%;height:1px;background:rgba(212,175,55,0.12);}
+input[type=text]{width:100%;padding:11px 16px;border-radius:10px;background:rgba(255,255,255,0.07);border:1px solid rgba(212,175,55,0.2);color:#e8dfc8;font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;outline:none;text-align:center;transition:border 0.2s;}
+input[type=text]:focus{border-color:rgba(212,175,55,0.5);}
+input[type=text]::placeholder{color:rgba(212,175,55,0.25);}
+#tier-display{font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;color:#aaa;display:none;}
+.btn{width:100%;padding:12px;border-radius:10px;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;transition:transform 0.15s,filter 0.15s;}
+.btn:hover{transform:translateY(-2px);filter:brightness(1.15);}
+.btn:active{transform:translateY(0);}
+.btn-ranked{background:linear-gradient(135deg,#b8860b,#d4af37);color:#1a0f00;box-shadow:0 4px 18px rgba(212,175,55,0.25);}
+.btn-private{background:rgba(255,255,255,0.08);color:#c8dde8;border:1px solid rgba(255,255,255,0.12);}
+.btn-join{background:rgba(99,162,255,0.15);color:#93c5fd;border:1px solid rgba(99,162,255,0.2);}
+.join-row{display:flex;gap:8px;width:100%;}
+.join-row input{flex:1;}
+.join-row .btn{width:auto;padding:11px 16px;}
+
+/* ── SEARCHING ── */
+#screen-searching{background:radial-gradient(ellipse 80% 60% at 50% 40%,#1c4a28,#071a0d);}
+.search-box{background:rgba(0,0,0,0.5);border:1px solid rgba(212,175,55,0.2);border-radius:20px;padding:48px 52px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:20px;backdrop-filter:blur(8px);}
+.spinner{width:48px;height:48px;border:3px solid rgba(212,175,55,0.15);border-top:3px solid #d4af37;border-radius:50%;animation:spin 1s linear infinite;}
+@keyframes spin{to{transform:rotate(360deg);}}
+#searching-msg{font-family:'Cinzel',serif;font-size:13px;letter-spacing:2px;color:rgba(212,175,55,0.7);}
+#room-code-display{font-family:'Cinzel',serif;font-size:28px;letter-spacing:8px;color:#d4af37;display:none;text-shadow:0 0 20px rgba(212,175,55,0.4);}
+
+/* ── GAME TABLE ── */
+#screen-game{
+  background:radial-gradient(ellipse 90% 70% at 50% 50%,#1c4a28 0%,#0f2d18 55%,#071a0d 100%);
+  flex-direction:column;justify-content:space-between;padding:16px 24px 14px;position:relative;
+}
+#screen-game::before{content:'';position:absolute;inset:0;pointer-events:none;background-image:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 6px),repeating-linear-gradient(90deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 6px);}
+#screen-game::after{content:'';position:absolute;inset:12px;border:1px solid rgba(212,175,55,0.08);pointer-events:none;}
+
+/* ── SCORE BAR ── */
+.score-bar{display:flex;justify-content:space-between;align-items:center;width:100%;z-index:3;padding:0 4px;}
+.score-side{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.score-name{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.45);}
+.score-pts{font-family:'Cinzel',serif;font-size:22px;color:#d4af37;line-height:1;}
+.score-tier{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;}
+.score-progress{flex:1;margin:0 16px;height:6px;background:rgba(255,255,255,0.06);border-radius:3px;position:relative;overflow:hidden;}
+.score-bar-fill{height:100%;border-radius:3px;background:linear-gradient(90deg,#b8860b,#d4af37);transition:width 0.5s ease;}
+.score-label{position:absolute;right:0;top:-14px;font-family:'Cinzel',serif;font-size:8px;color:rgba(212,175,55,0.3);letter-spacing:1px;}
+
+/* ── PLAYER AREAS ── */
+.player-area{display:flex;flex-direction:column;align-items:center;gap:6px;z-index:2;}
+.cards-row{display:flex;gap:10px;align-items:flex-end;justify-content:center;flex-wrap:wrap;}
+
+/* ── CENTER ── */
+.center-row{display:flex;align-items:center;justify-content:center;gap:48px;z-index:2;flex:1;}
+.center-slot{display:flex;flex-direction:column;align-items:center;gap:6px;}
+.slot-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.3);}
+
+/* ── TABLE CARDS ── */
+.table-cards-area{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;min-height:108px;}
+.table-slot-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.3);text-align:center;}
+
+/* ── CARDS ── */
+.card{width:64px;height:90px;border-radius:8px;flex-shrink:0;user-select:none;position:relative;transition:transform 0.2s cubic-bezier(.34,1.56,.64,1);}
+.card-front{width:100%;height:100%;border-radius:8px;background:#fffef8;border:1px solid #e0ddd0;display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;box-shadow:0 5px 16px rgba(0,0,0,0.5),inset 0 0 0 1px rgba(255,255,255,0.9);}
+.card-back{width:100%;height:100%;border-radius:8px;background:repeating-linear-gradient(45deg,#1a237e 0px,#1a237e 5px,#283593 5px,#283593 10px);border:3px solid #fffef8;box-shadow:0 5px 16px rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(212,175,55,0.5);}
+.rank-tl{position:absolute;top:4px;left:6px;font-family:'Cinzel',serif;font-size:12px;font-weight:700;line-height:1;}
+.rank-br{position:absolute;bottom:4px;right:6px;font-family:'Cinzel',serif;font-size:12px;font-weight:700;line-height:1;transform:rotate(180deg);}
+.suit-mid{font-size:26px;line-height:1;}
+.red{color:#c62828;}.black{color:#1a1a2e;}
+
+.player-card{cursor:pointer;}
+.player-card:hover{transform:translateY(-16px) scale(1.06);z-index:20;}
+.player-card.selected .card-front{box-shadow:0 5px 16px rgba(0,0,0,0.5),0 0 0 3px #d4af37,0 0 16px rgba(212,175,55,0.4),inset 0 0 0 1px rgba(255,255,255,0.9);}
+.player-card.my-turn-glow .card-front{box-shadow:0 5px 16px rgba(0,0,0,0.5),0 0 0 2px rgba(212,175,55,0.5),inset 0 0 0 1px rgba(255,255,255,0.9);}
+
+.table-card{cursor:pointer;}
+.table-card:hover{transform:translateY(-10px) scale(1.04);z-index:20;}
+.table-card.selected-table .card-front{box-shadow:0 5px 16px rgba(0,0,0,0.5),0 0 0 3px #38bd82,0 0 14px rgba(56,189,130,0.4),inset 0 0 0 1px rgba(255,255,255,0.9);}
+.table-card.invalid-table .card-front{box-shadow:0 5px 16px rgba(0,0,0,0.5),0 0 0 3px #ef4444,inset 0 0 0 1px rgba(255,255,255,0.9);}
+
+/* ── DECK ── */
+.deck-wrap{position:relative;width:64px;height:90px;cursor:default;}
+.deck-s1,.deck-s2{position:absolute;width:64px;height:90px;border-radius:8px;background:repeating-linear-gradient(45deg,#1a237e 0px,#1a237e 5px,#283593 5px,#283593 10px);border:3px solid #fffef8;}
+.deck-s1{top:5px;left:4px;opacity:0.35;}
+.deck-s2{top:3px;left:2px;opacity:0.6;}
+.deck-top{position:absolute;top:0;left:0;width:64px;height:90px;border-radius:8px;background:repeating-linear-gradient(45deg,#1a237e 0px,#1a237e 5px,#283593 5px,#283593 10px);border:3px solid #fffef8;display:flex;align-items:center;justify-content:center;font-size:22px;color:rgba(212,175,55,0.55);box-shadow:0 5px 16px rgba(0,0,0,0.55);}
+#deck-count{font-family:'Cinzel',serif;font-size:9px;letter-spacing:1px;color:rgba(212,175,55,0.3);}
+
+/* ── STATUS ── */
+.game-footer{display:flex;flex-direction:column;align-items:center;gap:8px;z-index:2;}
+#game-status{font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;color:rgba(212,175,55,0.7);padding:5px 20px;border:1px solid rgba(212,175,55,0.15);border-radius:24px;background:rgba(0,0,0,0.35);text-align:center;min-width:220px;}
+.btn-confirm{background:linear-gradient(135deg,#b8860b,#d4af37);color:#1a0f00;font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;padding:8px 28px;border-radius:20px;border:none;cursor:pointer;display:none;transition:transform 0.15s,filter 0.15s;}
+.btn-confirm:hover{transform:translateY(-2px);filter:brightness(1.1);}
+.btn-drop{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.4);font-family:'Cinzel',serif;font-size:10px;letter-spacing:2px;padding:6px 20px;border-radius:20px;border:1px solid rgba(255,255,255,0.1);cursor:pointer;display:none;transition:all 0.15s;}
+.btn-drop:hover{color:rgba(255,255,255,0.7);}
+.action-row{display:flex;gap:10px;align-items:center;}
+.btn-back-game{background:transparent;border:1px solid rgba(255,255,255,0.08);color:rgba(255,255,255,0.25);font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;padding:4px 14px;border-radius:20px;cursor:pointer;transition:all 0.2s;}
+.btn-back-game:hover{color:rgba(255,255,255,0.5);}
+
+/* ── FLOATING POINTS ── */
+.float-pt{position:fixed;font-family:'Cinzel',serif;font-size:20px;font-weight:700;color:#d4af37;text-shadow:0 0 20px rgba(212,175,55,0.8);pointer-events:none;z-index:9998;animation:floatUp 1.2s ease-out forwards;}
+@keyframes floatUp{0%{opacity:1;transform:translateY(0) scale(1);}100%{opacity:0;transform:translateY(-80px) scale(1.3);}}
+
+/* ── SUHER BANNER ── */
+.suher-banner{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:'Cinzel',serif;font-size:28px;letter-spacing:6px;color:#d4af37;text-shadow:0 0 40px rgba(212,175,55,0.9);z-index:9997;pointer-events:none;animation:suherAnim 2s ease-out forwards;}
+@keyframes suherAnim{0%{opacity:0;transform:translate(-50%,-50%) scale(0.5);}20%{opacity:1;transform:translate(-50%,-50%) scale(1.1);}80%{opacity:1;transform:translate(-50%,-50%) scale(1);}100%{opacity:0;transform:translate(-50%,-50%) scale(0.9);}}
+
+/* ── WIN SCREEN ── */
+#screen-win{background:radial-gradient(ellipse 80% 60% at 50% 40%,#1c4a28,#071a0d);gap:20px;}
+.win-box{background:rgba(0,0,0,0.5);border:1px solid rgba(212,175,55,0.25);border-radius:20px;padding:48px 52px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;backdrop-filter:blur(8px);}
+.win-title{font-family:'Cinzel',serif;font-size:32px;letter-spacing:6px;color:#d4af37;}
+.win-sub{font-family:'Cinzel',serif;font-size:13px;letter-spacing:3px;color:rgba(212,175,55,0.6);}
+.win-scores{display:flex;gap:32px;margin:8px 0;}
+.win-score-block{display:flex;flex-direction:column;align-items:center;gap:4px;}
+.win-score-name{font-family:'Cinzel',serif;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.4);}
+.win-score-pts{font-family:'Cinzel',serif;font-size:36px;color:#d4af37;}
+
+/* ── FLY LAYER ── */
+#fly-layer{position:fixed;inset:0;pointer-events:none;z-index:9999;}
+</style>
+</head>
+<body>
+<div id="fly-layer"></div>
+
+<!-- RULES MODAL -->
+<div class="rules-modal" id="rules-modal">
+  <div class="rules-box">
+    <div class="rules-title">HOW TO PLAY</div>
+    <div class="rules-section">GOAL</div>
+    <div class="rules-text">First player to reach <b>104 points</b> wins the game.</div>
+    <div class="rules-section">SETUP</div>
+    <div class="rules-text">A coin flip decides who deals. The loser deals first, then dealer switches every round.<br><br>Dealer gives 4 cards to opponent, 4 to the table, 4 to themselves. Table cards stay until the round ends.</div>
+    <div class="rules-section">ON YOUR TURN</div>
+    <div class="rules-text">Select a card from your hand, then select table cards that <b>sum to 11</b> together with your card. Hit CONFIRM to capture them — they go to your pile.<br><br>If you cannot sum to 11, press DROP CARD to place your card on the table.</div>
+    <div class="rules-section">SPECIAL CARDS</div>
+    <div class="rules-text">
+      🃏 <b>Jack</b> — captures all table cards with value ≤ 11 (not Queen or King)<br>
+      👸 <b>Queen</b> — can only capture another Queen<br>
+      🤴 <b>King</b> — can only capture another King
+    </div>
+    <div class="rules-section">SUHÈR BONUS</div>
+    <div class="rules-text">If you clear the last card(s) from the table (summing to 11, not with a Jack) and you have <b>under 80 points</b> — you earn <b>+5 bonus points</b>!</div>
+    <div class="rules-section">SCORING</div>
+    <div class="rules-text">
+      <b>Immediate points</b> (earned when you capture):<br>
+      • Each Ace → +1 pt<br>
+      • Each Jack → +1 pt<br>
+      • 2♣ Clubs → +2 pts<br>
+      • 10♦ Diamonds → +3 pts<br><br>
+      <b>End of round</b> (from your pile):<br>
+      • Most clubs (7 or more out of 13) → +13 pts
+    </div>
+    <div class="rules-section">ILLEGAL DROP</div>
+    <div class="rules-text">If you drop a card when a valid sum of 11 exists, the game automatically forces a random valid capture — so always check the table!</div>
+    <button class="rules-close" onclick="closeRules()">CLOSE</button>
+  </div>
+</div>
+
+<!-- HOME -->
+<div class="screen" id="screen-home">
+  <div class="home-wrap">
+    <div class="home-logo">PASO</div>
+    <div class="home-tagline">THE CARD GAME</div>
+    <div class="home-cards-deco">
+      <div class="deco-card" style="left:0px;top:10px;transform:rotate(-15deg);"></div>
+      <div class="deco-card" style="left:50px;top:0px;transform:rotate(-5deg);"></div>
+      <div class="deco-card" style="left:100px;top:5px;transform:rotate(7deg);background:repeating-linear-gradient(45deg,#7b1515 0px,#7b1515 5px,#9b1f1f 5px,#9b1f1f 10px);"></div>
+      <div class="deco-card" style="left:150px;top:15px;transform:rotate(18deg);"></div>
+    </div>
+    <div class="home-menu">
+      <button class="home-btn home-btn-play" onclick="goToLobby()">🃏 &nbsp;PLAY</button>
+      <button class="home-btn home-btn-leaderboard" onclick="goToLeaderboard()">🏆 &nbsp;LEADERBOARD</button>
+      <button class="home-btn home-btn-rules" onclick="openRules()">📖 &nbsp;HOW TO PLAY</button>
+    </div>
+    <div class="home-version">PASO v1.0 · BETA</div>
+  </div>
+</div>
+
+<!-- LEADERBOARD -->
+<div class="screen" id="screen-leaderboard">
+  <div class="lb-box">
+    <div class="lb-title">🏆 LEADERBOARD</div>
+    <div class="lb-list" id="lb-list"><div class="lb-loading">Loading...</div></div>
+    <button class="home-btn home-btn-leaderboard" style="font-size:10px;padding:10px;" onclick="showHome()">← BACK</button>
+  </div>
+</div>
+
+<!-- LOBBY -->
+<div class="screen" id="screen-lobby">
+  <div class="lobby-box">
+    <div class="game-logo">PASO</div>
+    <div class="logo-sub">ONLINE CARD GAME</div>
+    <div class="divider"></div>
+    <input type="text" id="name-input" placeholder="YOUR NAME" maxlength="16" oninput="onNameInput()">
+    <div id="tier-display"></div>
+    <div class="divider"></div>
+    <button class="btn btn-ranked" onclick="playRanked()">🏆 PLAY RANKED</button>
+    <button class="btn btn-private" onclick="createPrivate()">🔒 CREATE PRIVATE ROOM</button>
+    <div class="join-row">
+      <input type="text" id="join-code" placeholder="ROOM CODE" maxlength="4" style="text-transform:uppercase;">
+      <button class="btn btn-join" onclick="joinPrivate()">JOIN</button>
+    </div>
+  </div>
+</div>
+
+<!-- SEARCHING -->
+<div class="screen" id="screen-searching">
+  <div class="search-box">
+    <div class="game-logo" style="font-size:24px;letter-spacing:8px;">PASO</div>
+    <div class="spinner"></div>
+    <div id="searching-msg">Finding an opponent...</div>
+    <div id="room-code-display"></div>
+    <button class="btn btn-back-game" style="margin-top:8px;" onclick="backToLobby()">← BACK</button>
+  </div>
+</div>
+
+<!-- GAME -->
+<div class="screen" id="screen-game">
+  <!-- Score Bar -->
+  <div class="score-bar">
+    <div class="score-side">
+      <div class="score-name" id="their-score-name">OPPONENT</div>
+      <div class="score-pts" id="their-score">0</div>
+      <div class="score-tier" id="their-tier"></div>
+    </div>
+    <div class="score-progress">
+      <div class="score-label">104</div>
+      <div class="score-bar-fill" id="their-bar" style="width:0%"></div>
+    </div>
+    <div style="font-family:'Cinzel',serif;font-size:9px;letter-spacing:2px;color:rgba(212,175,55,0.2);">VS</div>
+    <div class="score-progress">
+      <div class="score-bar-fill" id="my-bar" style="width:0%;float:right;"></div>
+    </div>
+    <div class="score-side">
+      <div class="score-name" id="my-score-name">YOU</div>
+      <div class="score-pts" id="my-score">0</div>
+      <div class="score-tier" id="my-tier"></div>
+    </div>
+  </div>
+
+  <!-- Opponent hand -->
+  <div class="player-area">
+    <div class="cards-row" id="enemy-cards"></div>
+  </div>
+
+  <!-- Table cards -->
+  <div class="center-row">
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div class="table-slot-label">TABLE</div>
+      <div class="table-cards-area" id="table-cards"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;align-items:center;gap:6px;">
+      <div class="deck-wrap" id="deck-btn">
+        <div class="deck-s1"></div>
+        <div class="deck-s2"></div>
+        <div class="deck-top">★</div>
+      </div>
+      <div id="deck-count" class="slot-label">52</div>
+      <div class="slot-label">DECK</div>
+    </div>
+  </div>
+
+  <!-- Player hand -->
+  <div class="player-area">
+    <div class="cards-row" id="player-cards"></div>
+  </div>
+
+  <!-- Footer -->
+  <div class="game-footer">
+    <div id="game-status">Connecting...</div>
+    <div class="action-row">
+      <button class="btn-confirm" id="btn-confirm" onclick="confirmPlay()">✓ CONFIRM</button>
+      <button class="btn-drop" id="btn-drop" onclick="dropCard()">DROP CARD</button>
+    </div>
+    <button class="btn-back-game" onclick="backToLobby()">← LEAVE</button>
+  </div>
+</div>
+
+<!-- WIN -->
+<div class="screen" id="screen-win">
+  <div class="win-box">
+    <div class="win-title" id="win-title">YOU WIN</div>
+    <div class="win-sub" id="win-sub">GAME OVER</div>
+    <div class="win-scores">
+      <div class="win-score-block">
+        <div class="win-score-name" id="win-name1"></div>
+        <div class="win-score-pts" id="win-pts1"></div>
+      </div>
+      <div class="win-score-block">
+        <div class="win-score-name" id="win-name2"></div>
+        <div class="win-score-pts" id="win-pts2"></div>
+      </div>
+    </div>
+    <button class="btn btn-ranked" style="width:200px;margin-top:8px;" onclick="backToLobby()">PLAY AGAIN</button>
+  </div>
+</div>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getDatabase, ref, set, get, update, onValue, remove }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDCXw1r1TaW7duObCkur3o7ZSVsrl4zAuI",
+  authDomain: "tictactoe-dcabc.firebaseapp.com",
+  databaseURL: "https://tictactoe-dcabc-default-rtdb.firebaseio.com",
+  projectId: "tictactoe-dcabc",
+  storageBucket: "tictactoe-dcabc.firebasestorage.app",
+  messagingSenderId: "527570831544",
+  appId: "1:527570831544:web:adddf210cbe9776d184c4d"
+};
+const app = initializeApp(firebaseConfig);
+const db  = getDatabase(app);
+
+// ── CONSTANTS ─────────────────────────────────────────────────────────────
+const SUITS = ['♠','♥','♦','♣'];
+const RANKS = ['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+const RANK_VAL = {'A':1,'2':2,'3':3,'4':4,'5':5,'6':6,'7':7,'8':8,'9':9,'10':10,'J':11,'Q':12,'K':13};
+const IS_RED = s => s==='♥'||s==='♦';
+
+function shuffle(a){for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function buildDeck(){return shuffle(SUITS.flatMap(s=>RANKS.map(r=>({s,r}))));}
+function randCode(){return Math.random().toString(36).substring(2,6).toUpperCase();}
+
+function tierOf(pts){
+  if(pts>=500)return{name:'Diamond',icon:'💎',color:'#67e8f9'};
+  if(pts>=250)return{name:'Gold',icon:'🥇',color:'#d4af37'};
+  if(pts>=100)return{name:'Silver',icon:'🥈',color:'#c0c0c0'};
+  return{name:'Bronze',icon:'🥉',color:'#cd7f32'};
+}
+
+// ── GAME LOGIC ────────────────────────────────────────────────────────────
+// Returns immediate points for a card capture
+function immediatePoints(card){
+  if(card.r==='A') return 1;
+  if(card.r==='J') return 1;
+  if(card.r==='2'&&card.s==='♣') return 2;
+  if(card.r==='10'&&card.s==='♦') return 3;
+  return 0;
+}
+
+// Check if a set of table cards can be captured by hand card
+function canCapture(handCard, tableCards){
+  const hv = RANK_VAL[handCard.r];
+  // Jack: captures any subset of table cards all with value <= 11 (A-10 and other Jacks, NOT Q or K)
+  if(hv===11){
+    return tableCards.length>0 && tableCards.every(tc=> RANK_VAL[tc.r]<=11);
+  }
+  // Queen: only another Queen
+  if(hv===12){
+    return tableCards.length===1 && RANK_VAL[tableCards[0].r]===12;
+  }
+  // King: only another King
+  if(hv===13){
+    return tableCards.length===1 && RANK_VAL[tableCards[0].r]===13;
+  }
+  // Normal: sum to 11
+  const sum = tableCards.reduce((acc,tc)=>acc+RANK_VAL[tc.r],0);
+  return sum+hv===11 && tableCards.length>0;
+}
+
+function countClubs(pile){
+  return (pile||[]).filter(c=>c.s==='♣').length;
+}
+
+function calcEndOfRoundPoints(pile){
+  return countClubs(pile)>=7 ? 13 : 0;
+}
+
+// ── STATE ─────────────────────────────────────────────────────────────────
+let myName='',myRole='',roomId='',roomRef=null,roomUnsub=null;
+let selectedHandIdx=-1, selectedTableIdxs=[];
+let localState=null, animating=false;
+
+// ── SCREENS ───────────────────────────────────────────────────────────────
+function show(id){
+  ['screen-home','screen-lobby','screen-searching','screen-game','screen-win','screen-leaderboard'].forEach(s=>{
+    document.getElementById(s).style.display=s===id?'flex':'none';
+  });
+}
+
+function showHome(){ show('screen-home'); }
+
+window.goToLobby = function(){ show('screen-lobby'); loadLobby(); }
+
+window.openRules = function(){ document.getElementById('rules-modal').classList.add('open'); }
+window.closeRules = function(){ document.getElementById('rules-modal').classList.remove('open'); }
+
+window.goToLeaderboard = async function(){
+  show('screen-leaderboard');
+  document.getElementById('lb-list').innerHTML='<div class="lb-loading">Loading...</div>';
+  try {
+    const snap = await get(ref(db,'paso/players'));
+    if(!snap.exists()){ document.getElementById('lb-list').innerHTML='<div class="lb-loading">No players yet.</div>'; return; }
+    const players = Object.entries(snap.val())
+      .map(([name,v])=>({name,points:v.points||0,wins:v.wins||0,losses:v.losses||0}))
+      .sort((a,b)=>b.points-a.points)
+      .slice(0,50);
+    const list = document.getElementById('lb-list');
+    list.innerHTML='';
+    players.forEach((p,i)=>{
+      const tier=tierOf(p.points);
+      const rankIcon = i===0?'🥇':i===1?'🥈':i===2?'🥉':(i+1);
+      const rankClass = i===0?'gold':i===1?'silver':i===2?'bronze-r':'';
+      const row=document.createElement('div');
+      row.className='lb-row';
+      row.innerHTML=`
+        <div class="lb-rank \${rankClass}">\${rankIcon}</div>
+        <div class="lb-tier">\${tier.icon}</div>
+        <div class="lb-name">\${p.name}</div>
+        <div style="text-align:right;">
+          <div class="lb-pts">\${p.points} pts</div>
+          <div class="lb-wl">\${p.wins}W · \${p.losses}L</div>
+        </div>`;
+      list.appendChild(row);
+    });
+  } catch(e){
+    document.getElementById('lb-list').innerHTML='<div class="lb-loading">Failed to load.</div>';
+  }
+};
+
+// ── LOBBY ─────────────────────────────────────────────────────────────────
+async function loadLobby(){
+  show('screen-lobby');
+  selectedHandIdx=-1; selectedTableIdxs=[];
+  if(roomUnsub){roomUnsub();roomUnsub=null;}
+  document.getElementById('name-input').value=myName||'';
+  if(myName) await refreshTierDisplay();
+}
+
+async function refreshTierDisplay(){
+  const snap=await get(ref(db,`paso/players/${myName}`));
+  const pts=snap.exists()?(snap.val().points||0):0;
+  const tier=tierOf(pts);
+  document.getElementById('tier-display').innerHTML=`${tier.icon} <span style="color:${tier.color}">${tier.name}</span> · ${pts} pts`;
+  document.getElementById('tier-display').style.display='block';
+}
+
+window.onNameInput=async function(){
+  myName=document.getElementById('name-input').value.trim();
+  if(myName.length>=2) await refreshTierDisplay();
+  else document.getElementById('tier-display').style.display='none';
+};
+
+async function ensurePlayer(name){
+  const snap=await get(ref(db,`paso/players/${name}`));
+  if(!snap.exists()) await set(ref(db,`paso/players/${name}`),{points:0,wins:0,losses:0});
+}
+
+window.playRanked=async function(){
+  myName=document.getElementById('name-input').value.trim();
+  if(!myName){alert('Enter your name first!');return;}
+  await ensurePlayer(myName);
+  const snap=await get(ref(db,'paso/ranked_queue'));
+  if(snap.exists()){
+    const rooms=snap.val();
+    const waiting=Object.entries(rooms).find(([,v])=>v.status==='waiting'&&v.host!==myName);
+    if(waiting){
+      roomId=waiting[0]; myRole='guest';
+      await joinRoomAsGuest(roomId,true); return;
+    }
+  }
+  myRole='host'; roomId=randCode();
+  const deck=buildDeck();
+  await set(ref(db,`paso/ranked_queue/${roomId}`),{
+    host:myName,guest:'',status:'waiting',
+    deck,hostHand:[],guestHand:[],tableCards:[],
+    hostPile:[],guestPile:[],
+    hostLivePoints:0,guestLivePoints:0,
+    hostRoundPoints:0,guestRoundPoints:0,
+    turn:'host',dealerRole:'guest',ranked:true,
+    lastCapturerRole:'',phase:'waiting',
+    createdAt:Date.now()
+  });
+  show('screen-searching');
+  document.getElementById('searching-msg').textContent='Finding an opponent...';
+  document.getElementById('room-code-display').style.display='none';
+  roomRef=ref(db,`paso/ranked_queue/${roomId}`);
+  startListening();
+};
+
+window.createPrivate=async function(){
+  myName=document.getElementById('name-input').value.trim();
+  if(!myName){alert('Enter your name first!');return;}
+  await ensurePlayer(myName);
+  myRole='host'; roomId=randCode();
+  const deck=buildDeck();
+  await set(ref(db,`paso/rooms/${roomId}`),{
+    host:myName,guest:'',status:'waiting',
+    deck,hostHand:[],guestHand:[],tableCards:[],
+    hostPile:[],guestPile:[],
+    hostLivePoints:0,guestLivePoints:0,
+    hostRoundPoints:0,guestRoundPoints:0,
+    turn:'host',dealerRole:'guest',ranked:false,
+    lastCapturerRole:'',phase:'waiting',
+    createdAt:Date.now()
+  });
+  show('screen-searching');
+  document.getElementById('searching-msg').textContent='Room code: ';
+  document.getElementById('room-code-display').textContent=roomId;
+  document.getElementById('room-code-display').style.display='inline';
+  roomRef=ref(db,`paso/rooms/${roomId}`);
+  startListening();
+};
+
+window.joinPrivate=async function(){
+  myName=document.getElementById('name-input').value.trim();
+  const code=document.getElementById('join-code').value.trim().toUpperCase();
+  if(!myName){alert('Enter your name first!');return;}
+  if(!code){alert('Enter a room code!');return;}
+  await ensurePlayer(myName);
+  myRole='guest'; roomId=code;
+  await joinRoomAsGuest(roomId,false);
+};
+
+async function joinRoomAsGuest(rid,ranked){
+  const path=ranked?`paso/ranked_queue/${rid}`:`paso/rooms/${rid}`;
+  const snap=await get(ref(db,path));
+  if(!snap.exists()){alert('Room not found!');return;}
+  const d=snap.val();
+  if(d.status!=='waiting'){alert('Room already full!');return;}
+  roomRef=ref(db,path);
+  await update(roomRef,{guest:myName,status:'playing',phase:'dealing'});
+  startListening();
+  show('screen-game');
+}
+
+function startListening(){
+  if(roomUnsub) roomUnsub();
+  roomUnsub=onValue(roomRef,snap=>{
+    if(!snap.exists()) return;
+    const d=snap.val();
+    localState=d;
+    if(d.status==='waiting'&&myRole==='host'){
+      // still waiting for guest
+      return;
+    }
+    if(d.status==='playing'||d.status==='dealing'){
+      show('screen-game');
+      if(d.phase==='dealing'&&myRole==='host'){
+        // host triggers the deal
+        dealCards(d);
+        return;
+      }
+      renderGame(d);
+    }
+    if(d.status==='finished'){
+      endGame(d);
+    }
+  });
+}
+
+// ── DEALING ───────────────────────────────────────────────────────────────
+async function dealCards(d){
+  if(myRole!=='host') return;
+  const deck = [...(d.deck||[])];
+
+  // Need at least 8 cards to deal hands (4 per player)
+  if(deck.length < 8){ await tallyRound(d); return; }
+
+  const dealer    = d.dealerRole||'guest';
+  const nonDealer = dealer==='host'?'guest':'host';
+
+  // Always: deal 4 to non-dealer, 4 to dealer. Table is NEVER touched here.
+  const hand1=[deck.pop(),deck.pop(),deck.pop(),deck.pop()]; // non-dealer
+  const hand2=[deck.pop(),deck.pop(),deck.pop(),deck.pop()]; // dealer
+
+  const hostHand  = dealer==='host'  ? hand2 : hand1;
+  const guestHand = dealer==='guest' ? hand2 : hand1;
+
+  // Table cards: only set them on very first deal of the round (tableReady flag)
+  // tableReady is set to false at start of each new round
+  const updates = { deck, hostHand, guestHand, turn:nonDealer, phase:'playing', status:'playing', lastCapturerRole:'' };
+
+  if(!d.tableReady){
+    // First deal of this round: put 4 cards on the table from the deck BEFORE dealing hands
+    // Rebuild with correct order: opponent 4, table 4, dealer 4
+    const freshDeck = [...(d.deck||[])];
+    const fh1=[freshDeck.pop(),freshDeck.pop(),freshDeck.pop(),freshDeck.pop()];
+    const ftbl=[freshDeck.pop(),freshDeck.pop(),freshDeck.pop(),freshDeck.pop()];
+    const fh2=[freshDeck.pop(),freshDeck.pop(),freshDeck.pop(),freshDeck.pop()];
+    updates.deck      = freshDeck;
+    updates.hostHand  = dealer==='host'  ? fh2 : fh1;
+    updates.guestHand = dealer==='guest' ? fh2 : fh1;
+    updates.tableCards= ftbl;
+    updates.tableReady= true;
+  }
+  // If tableReady is already true, table stays exactly as-is — no change
+
+  await update(roomRef, updates);
+}
+
+// ── TALLY ROUND ───────────────────────────────────────────────────────────
+async function tallyRound(d){
+  if(myRole!=='host') return;
+  const hostClubPts = calcEndOfRoundPoints(d.hostPile||[]);
+  const guestClubPts= calcEndOfRoundPoints(d.guestPile||[]);
+  const newHostRP=(d.hostRoundPoints||0)+hostClubPts;
+  const newGuestRP=(d.guestRoundPoints||0)+guestClubPts;
+
+  const hostTotal=(d.hostLivePoints||0)+newHostRP;
+  const guestTotal=(d.guestLivePoints||0)+newGuestRP;
+
+  // Switch dealer
+  const newDealer=d.dealerRole==='host'?'guest':'host';
+
+  if(hostTotal>=104||guestTotal>=104){
+    const winner=hostTotal>=guestTotal?d.host:d.guest;
+    await update(roomRef,{
+      status:'finished',winner,
+      hostRoundPoints:newHostRP,guestRoundPoints:newGuestRP,
+      finalHostTotal:hostTotal,finalGuestTotal:guestTotal
+    });
+    return;
+  }
+
+  // New round: reset piles, keep points, new deck if needed
+  let deck=[...(d.deck||[])];
+  if(deck.length<12) deck=buildDeck();
+
+  await update(roomRef,{
+    deck, hostHand:[], guestHand:[], tableCards:[],
+    hostPile:[], guestPile:[],
+    hostRoundPoints:newHostRP, guestRoundPoints:newGuestRP,
+    dealerRole:newDealer, phase:'dealing',
+    lastCapturerRole:'', tableReady:false
+  });
+}
+
+// ── RENDER GAME ───────────────────────────────────────────────────────────
+function renderGame(d){
+  if(!d) return;
+  const myHand    = myRole==='host'?(d.hostHand||[]):(d.guestHand||[]);
+  const theirHand = myRole==='host'?(d.guestHand||[]):(d.hostHand||[]);
+  const myLP      = myRole==='host'?(d.hostLivePoints||0):(d.guestLivePoints||0);
+  const theirLP   = myRole==='host'?(d.guestLivePoints||0):(d.hostLivePoints||0);
+  const myTurn    = d.turn===myRole;
+  const opName    = myRole==='host'?(d.guest||'Waiting...'):(d.host||'');
+  const tableCards= d.tableCards||[];
+
+  // Scores
+  document.getElementById('my-score').textContent=myLP;
+  document.getElementById('their-score').textContent=theirLP;
+  document.getElementById('my-score-name').textContent=myName;
+  document.getElementById('their-score-name').textContent=opName;
+  document.getElementById('my-bar').style.width=Math.min(myLP/104*100,100)+'%';
+  document.getElementById('their-bar').style.width=Math.min(theirLP/104*100,100)+'%';
+
+  // Deck count
+  document.getElementById('deck-count').textContent=(d.deck||[]).length;
+
+  // Status
+  if(d.status==='waiting'||d.phase==='waiting'){
+    setStatus('Waiting for opponent...');
+  } else if(d.phase==='dealing'){
+    setStatus('Dealing cards...');
+  } else {
+    setStatus(myTurn?'Your turn':'Opponent\'s turn...');
+  }
+
+  // Hands
+  renderEnemyHand(theirHand);
+  renderPlayerHand(myHand, myTurn&&d.phase==='playing'&&!animating);
+
+  // Table
+  renderTableCards(tableCards, myTurn&&d.phase==='playing'&&!animating);
+
+  // Buttons
+  updateActionButtons();
+}
+
+function renderEnemyHand(hand){
+  const row=document.getElementById('enemy-cards');
+  row.innerHTML='';
+  hand.forEach((_,i)=>{
+    const c=document.createElement('div');
+    c.className='card';c.id='e'+i;
+    c.innerHTML=cardBackHTML();
+    row.appendChild(c);
+  });
+}
+
+function renderPlayerHand(hand, clickable){
+  const row=document.getElementById('player-cards');
+  row.innerHTML='';
+  hand.forEach((card,i)=>{
+    const c=document.createElement('div');
+    c.className='card'+(clickable?' player-card':'')+(clickable?' my-turn-glow':'');
+    if(i===selectedHandIdx) c.classList.add('selected');
+    c.id='p'+i;
+    c.innerHTML=cardFrontHTML(card);
+    if(clickable) c.onclick=()=>selectHandCard(i);
+    row.appendChild(c);
+  });
+}
+
+function renderTableCards(tableCards, clickable){
+  const area=document.getElementById('table-cards');
+  area.innerHTML='';
+  if(tableCards.length===0){
+    area.innerHTML='<span style="color:rgba(212,175,55,0.15);font-family:Cinzel,serif;font-size:11px;letter-spacing:2px;">EMPTY</span>';
+    return;
+  }
+  tableCards.forEach((card,i)=>{
+    const c=document.createElement('div');
+    c.className='card'+(clickable?' table-card':'');
+    if(selectedTableIdxs.includes(i)) c.classList.add('selected-table');
+    c.id='t'+i;
+    c.innerHTML=cardFrontHTML(card);
+    if(clickable) c.onclick=()=>selectTableCard(i);
+    area.appendChild(c);
+  });
+}
+
+// ── SELECTION ─────────────────────────────────────────────────────────────
+function selectHandCard(idx){
+  if(animating) return;
+  selectedHandIdx = selectedHandIdx===idx ? -1 : idx;
+  selectedTableIdxs=[];
+  renderGame(localState);
+}
+
+function selectTableCard(idx){
+  if(animating||selectedHandIdx<0) return;
+  const d=localState;
+  const myHand=myRole==='host'?(d.hostHand||[]):(d.guestHand||[]);
+  const tableCards=d.tableCards||[];
+  const handCard=myHand[selectedHandIdx];
+  const hv=RANK_VAL[handCard.r];
+
+  // Jack: auto-select all capturable table cards (value <= 11, excludes Q and K)
+  if(hv===11){
+    selectedTableIdxs=tableCards.map((_,i)=>i).filter(i=>RANK_VAL[tableCards[i].r]<=11 && tableCards[i].r!=='Q' && tableCards[i].r!=='K');
+    renderGame(d);
+    updateActionButtons();
+    return;
+  }
+  // Queen/King: only allow single pair
+  if(hv>=12){
+    selectedTableIdxs=[idx];
+    renderGame(d);
+    updateActionButtons();
+    return;
+  }
+  // Normal: toggle
+  if(selectedTableIdxs.includes(idx)){
+    selectedTableIdxs=selectedTableIdxs.filter(i=>i!==idx);
+  } else {
+    selectedTableIdxs=[...selectedTableIdxs,idx];
+  }
+  renderGame(d);
+  updateActionButtons();
+}
+
+function updateActionButtons(){
+  const confirmBtn=document.getElementById('btn-confirm');
+  const dropBtn=document.getElementById('btn-drop');
+  const d=localState;
+  if(!d||d.turn!==myRole||d.phase!=='playing'||animating){
+    confirmBtn.style.display='none';
+    dropBtn.style.display='none';
+    return;
+  }
+  if(selectedHandIdx<0){
+    confirmBtn.style.display='none';
+    dropBtn.style.display='none';
+    return;
+  }
+  // Show drop always when a hand card selected
+  dropBtn.style.display='inline-block';
+
+  // Show confirm if valid selection
+  if(selectedTableIdxs.length>0){
+    const myHand=myRole==='host'?(d.hostHand||[]):(d.guestHand||[]);
+    const tableCards=d.tableCards||[];
+    const handCard=myHand[selectedHandIdx];
+    const selTableCards=selectedTableIdxs.map(i=>tableCards[i]);
+    if(canCapture(handCard,selTableCards)){
+      confirmBtn.style.display='inline-block';
+    } else {
+      confirmBtn.style.display='none';
+    }
+  } else {
+    confirmBtn.style.display='none';
+  }
+}
+
+// ── CONFIRM PLAY (capture) ────────────────────────────────────────────────
+window.confirmPlay=async function(){
+  if(animating) return;
+  const d=localState;
+  if(!d||d.turn!==myRole||d.phase!=='playing') return;
+  const myHandKey =myRole==='host'?'hostHand':'guestHand';
+  const myPileKey =myRole==='host'?'hostPile':'guestPile';
+  const myLPKey   =myRole==='host'?'hostLivePoints':'guestLivePoints';
+  const myHand    =[...(d[myHandKey]||[])];
+  const tableCards=[...(d.tableCards||[])];
+  const myPile    =[...(d[myPileKey]||[])];
+  const handCard  =myHand[selectedHandIdx];
+  const selTableCards=selectedTableIdxs.map(i=>tableCards[i]);
+
+  if(!canCapture(handCard,selTableCards)) return;
+
+  animating=true;
+  // Animate
+  const fromEl=document.getElementById('p'+selectedHandIdx);
+  const toEl=document.getElementById('deck-btn');// fly to pile area
+  flyCard(handCard,fromEl,toEl,420,false,async()=>{
+    // Compute immediate points
+    let pts=immediatePoints(handCard);
+    selTableCards.forEach(tc=>{ pts+=immediatePoints(tc); });
+
+    // Suher check: table becomes empty after capture, not by Jack
+    const newTable=tableCards.filter((_,i)=>!selectedTableIdxs.includes(i));
+    const hv=RANK_VAL[handCard.r];
+    const isSuher = newTable.length===0 && hv!==11 && (d[myLPKey]||0)<80;
+    if(isSuher){ pts+=5; showSuher(); }
+    else if(pts>0){ showFloatPts(pts); }
+
+    // Update pile
+    const captured=[handCard,...selTableCards];
+    captured.forEach(c=>myPile.push(c));
+    myHand.splice(selectedHandIdx,1);
+
+    const updates={
+      [myHandKey]:myHand,
+      tableCards:newTable,
+      [myPileKey]:myPile,
+      [myLPKey]:(d[myLPKey]||0)+pts,
+      lastCapturerRole:myRole,
+      turn:myRole==='host'?'guest':'host'
+    };
+
+    // Check if both hands empty
+    const theirHandKey=myRole==='host'?'guestHand':'hostHand';
+    const theirHand=d[theirHandKey]||[];
+    if(myHand.length===0&&theirHand.length===0){
+      // Give remaining table cards to last capturer
+      if(newTable.length>0){
+        newTable.forEach(c=>myPile.push(c));
+        updates[myPileKey]=myPile;
+        updates.tableCards=[];
+      }
+      // Try to deal more
+      updates.phase='dealing';
+    }
+
+    await update(roomRef,updates);
+    selectedHandIdx=-1; selectedTableIdxs=[];
+    animating=false;
+  });
+};
+
+// ── DROP CARD (cannot sum) ────────────────────────────────────────────────
+// ── FIND ALL VALID COMBINATIONS ──────────────────────────────────────────
+// Returns array of combinations (each combo = array of table indices) that sum to 11 with handCard
+function findAllCombinations(handCard, tableCards){
+  const hv = RANK_VAL[handCard.r];
+  const results = [];
+
+  // Jack: only illegal if there are capturable cards (value <=11, not Q/K) on the table
+  // If table only has Queens/Kings, dropping Jack is perfectly legal
+  if(hv===11){
+    const capturableIdxs = tableCards.map((_,i)=>i).filter(i=>RANK_VAL[tableCards[i].r]<=11 && tableCards[i].r!=='Q' && tableCards[i].r!=='K');
+    if(capturableIdxs.length>0) results.push(capturableIdxs);
+    // If capturableIdxs is empty, returns [] meaning legal drop
+    return results;
+  }
+  // Queen: find any other Queen on table
+  if(hv===12){
+    tableCards.forEach((tc,i)=>{ if(RANK_VAL[tc.r]===12) results.push([i]); });
+    return results;
+  }
+  // King: find any other King on table
+  if(hv===13){
+    tableCards.forEach((tc,i)=>{ if(RANK_VAL[tc.r]===13) results.push([i]); });
+    return results;
+  }
+  // Normal cards: find all subsets of table that sum to (11 - hv)
+  const target = 11 - hv;
+  if(target<=0) return results;
+  const n = tableCards.length;
+  // Iterate all non-empty subsets using bitmask
+  for(let mask=1; mask<(1<<n); mask++){
+    let sum=0; const idxs=[];
+    for(let b=0;b<n;b++){
+      if(mask&(1<<b)){ sum+=RANK_VAL[tableCards[b].r]; idxs.push(b); }
+    }
+    if(sum===target) results.push(idxs);
+  }
+  return results;
+}
+
+window.dropCard=async function(){
+  if(animating||selectedHandIdx<0) return;
+  const d=localState;
+  if(!d||d.turn!==myRole||d.phase!=='playing') return;
+  const myHandKey =myRole==='host'?'hostHand':'guestHand';
+  const myPileKey =myRole==='host'?'hostPile':'guestPile';
+  const myLPKey   =myRole==='host'?'hostLivePoints':'guestLivePoints';
+  const myHand    =[...(d[myHandKey]||[])];
+  const tableCards=[...(d.tableCards||[])];
+  const myPile    =[...(d[myPileKey]||[])];
+  const card      =myHand[selectedHandIdx];
+
+  // Check if there were valid combinations the player missed
+  const combos = findAllCombinations(card, tableCards);
+
+  if(combos.length>0){
+    // ILLEGAL DROP — force a random valid combination
+    const randomCombo = combos[Math.floor(Math.random()*combos.length)];
+    const forcedTableCards = randomCombo.map(i=>tableCards[i]);
+
+    // Show penalty message
+    showPenaltyBanner();
+
+    animating=true;
+    const fromEl=document.getElementById('p'+selectedHandIdx);
+    const toEl=document.getElementById('deck-btn');
+    flyCard(card,fromEl,toEl,480,false,async()=>{
+      // Compute immediate points
+      let pts = immediatePoints(card);
+      forcedTableCards.forEach(tc=>{ pts+=immediatePoints(tc); });
+
+      const newTable=tableCards.filter((_,i)=>!randomCombo.includes(i));
+      const hv=RANK_VAL[card.r];
+      const isSuher=newTable.length===0&&hv!==11&&(d[myLPKey]||0)<80;
+      if(isSuher){ pts+=5; showSuher(); }
+      else if(pts>0){ showFloatPts(pts); }
+
+      const captured=[card,...forcedTableCards];
+      captured.forEach(c=>myPile.push(c));
+      myHand.splice(selectedHandIdx,1);
+
+      const updates={
+        [myHandKey]:myHand,
+        tableCards:newTable,
+        [myPileKey]:myPile,
+        [myLPKey]:(d[myLPKey]||0)+pts,
+        lastCapturerRole:myRole,
+        turn:myRole==='host'?'guest':'host'
+      };
+      const theirHandKey=myRole==='host'?'guestHand':'hostHand';
+      const theirHand=d[theirHandKey]||[];
+      if(myHand.length===0&&theirHand.length===0){
+        if(newTable.length>0){ newTable.forEach(c=>myPile.push(c)); updates[myPileKey]=myPile; updates.tableCards=[]; }
+        updates.phase='dealing';
+      }
+      await update(roomRef,updates);
+      selectedHandIdx=-1; selectedTableIdxs=[];
+      animating=false;
+    });
+
+  } else {
+    // LEGAL DROP — no valid combo existed, place card on table normally
+    animating=true;
+    const fromEl=document.getElementById('p'+selectedHandIdx);
+    const toEl=document.getElementById('table-cards');
+    flyCard(card,fromEl,toEl,420,false,async()=>{
+      myHand.splice(selectedHandIdx,1);
+      tableCards.push(card);
+      const updates={
+        [myHandKey]:myHand,
+        tableCards,
+        turn:myRole==='host'?'guest':'host'
+      };
+      const theirHandKey=myRole==='host'?'guestHand':'hostHand';
+      const theirHand=d[theirHandKey]||[];
+      if(myHand.length===0&&theirHand.length===0) updates.phase='dealing';
+      await update(roomRef,updates);
+      selectedHandIdx=-1; selectedTableIdxs=[];
+      animating=false;
+    });
+  }
+};
+
+// ── END GAME ──────────────────────────────────────────────────────────────
+async function endGame(d){
+  show('screen-win');
+  const hostTotal=d.finalHostTotal||(d.hostLivePoints||0)+(d.hostRoundPoints||0);
+  const guestTotal=d.finalGuestTotal||(d.guestLivePoints||0)+(d.guestRoundPoints||0);
+  const iWon=d.winner===myName;
+  document.getElementById('win-title').textContent=iWon?'🏆 YOU WIN!':'💀 YOU LOST';
+  document.getElementById('win-sub').textContent='GAME OVER';
+  document.getElementById('win-name1').textContent=d.host;
+  document.getElementById('win-pts1').textContent=hostTotal;
+  document.getElementById('win-name2').textContent=d.guest;
+  document.getElementById('win-pts2').textContent=guestTotal;
+
+  if(d.ranked){
+    await updateRankPoints(myName, iWon);
+  }
+}
+
+async function updateRankPoints(name,won){
+  const snap=await get(ref(db,`paso/players/${name}`));
+  const cur=snap.exists()?snap.val():{points:0,wins:0,losses:0};
+  const pts=Math.max(0,(cur.points||0)+(won?25:-10));
+  await update(ref(db,`paso/players/${name}`),{
+    points:pts,wins:(cur.wins||0)+(won?1:0),losses:(cur.losses||0)+(won?0:1)
+  });
+}
+
+window.backToLobby=function(){
+  if(roomUnsub){roomUnsub();roomUnsub=null;}
+  show('screen-home');
+};
+
+// ── EFFECTS ───────────────────────────────────────────────────────────────
+function showFloatPts(pts){
+  const el=document.createElement('div');
+  el.className='float-pt';
+  el.textContent='+'+pts;
+  el.style.cssText+=`left:${40+Math.random()*20}%;top:60%;`;
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),1300);
+}
+
+function showPenaltyBanner(){
+  const el=document.createElement('div');
+  el.style.cssText='position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:Cinzel,serif;font-size:20px;letter-spacing:4px;color:#ef4444;text-shadow:0 0 30px rgba(239,68,68,0.9);z-index:9997;pointer-events:none;animation:suherAnim 2s ease-out forwards;text-align:center;';
+  el.innerHTML='⚠ ILLEGAL DROP<br><span style="font-size:13px;letter-spacing:2px;opacity:0.8;">Valid combo found — forced capture!</span>';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2100);
+}
+
+function showSuher(){
+  const el=document.createElement('div');
+  el.className='suher-banner';
+  el.textContent='✦ SUHÈR +5 ✦';
+  document.body.appendChild(el);
+  setTimeout(()=>el.remove(),2100);
+  showFloatPts(5);
+}
+
+function setStatus(msg){document.getElementById('game-status').textContent=msg;}
+
+// ── CARD HTML ─────────────────────────────────────────────────────────────
+function cardFrontHTML(card){
+  const col=IS_RED(card.s)?'red':'black';
+  return `<div class="card-front">
+    <span class="rank-tl ${col}">${card.r}</span>
+    <span class="suit-mid ${col}">${card.s}</span>
+    <span class="rank-br ${col}">${card.r}</span>
+  </div>`;
+}
+function cardBackHTML(){
+  return `<div class="card-back">★</div>`;
+}
+
+// ── FLY ANIMATION ─────────────────────────────────────────────────────────
+function getCenter(el){const r=el.getBoundingClientRect();return{x:r.left+r.width/2,y:r.top+r.height/2};}
+function flyCard(card,fromEl,toEl,ms,faceDown,onDone){
+  const from=getCenter(fromEl),to=getCenter(toEl);
+  const W=64,H=90;
+  const dx=to.x-from.x,dy=to.y-from.y,dist=Math.sqrt(dx*dx+dy*dy);
+  const arc=Math.min(dist*0.42,110);
+  const midX=(from.x+to.x)/2,midY=Math.min(from.y,to.y)-arc;
+  const fc=document.createElement('div');
+  fc.style.cssText=`position:fixed;width:${W}px;height:${H}px;pointer-events:none;z-index:9999;`;
+  fc.innerHTML=faceDown?cardBackHTML():cardFrontHTML(card);
+  const inner=fc.firstChild;
+  inner.style.cssText+=`width:${W}px;height:${H}px;border-radius:8px;box-shadow:0 12px 32px rgba(0,0,0,0.6);`;
+  document.body.appendChild(fc);
+  const t0=performance.now();
+  function ease(t){return t<0.5?2*t*t:-1+(4-2*t)*t;}
+  function lerp(a,b,t){return a+(b-a)*t;}
+  function frame(now){
+    let t=Math.min((now-t0)/ms,1),e=ease(t);
+    const bx=lerp(lerp(from.x,midX,e),lerp(midX,to.x,e),e);
+    const by=lerp(lerp(from.y,midY,e),lerp(midY,to.y,e),e);
+    const rot=Math.sin(t*Math.PI)*14,scl=1+Math.sin(t*Math.PI)*0.1;
+    fc.style.left=(bx-W/2)+'px';fc.style.top=(by-H/2)+'px';
+    fc.style.transform=`rotate(${rot}deg) scale(${scl})`;
+    if(t<1) requestAnimationFrame(frame);
+    else{fc.remove();onDone&&onDone();}
+  }
+  requestAnimationFrame(frame);
+}
+
+// ── INIT ──────────────────────────────────────────────────────────────────
+show('screen-home');
+</script>
+</body>
+</html>
