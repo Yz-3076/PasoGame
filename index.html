@@ -177,6 +177,45 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
 .rsh{font-family:"Cinzel",serif;font-size:9px;letter-spacing:3px;color:rgba(200,100,100,0.42);margin-top:6px;}
 .rp{font-size:14px;color:#e0c0c0;line-height:1.68;}
 .rclose{background:linear-gradient(135deg,#8b0000,#cc0000);border:none;color:#ffe0e0;font-family:"Cinzel",serif;font-size:10px;letter-spacing:2px;padding:10px 26px;border-radius:17px;cursor:pointer;align-self:center;margin-top:6px;}
+/* ── ADMIN PANEL ── */
+.admin-btn{position:fixed;bottom:16px;right:16px;z-index:7000;background:rgba(200,0,0,0.15);border:1px solid rgba(200,0,0,0.3);border-radius:50%;width:36px;height:36px;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;}
+.admin-btn:hover{background:rgba(200,0,0,0.3);}
+#screen-admin{background:radial-gradient(ellipse 80% 60% at 50% 35%,#4a0000,#1a0000 60%,#0d0000 100%);}
+.admin-wrap{display:flex;flex-direction:column;width:100%;height:100%;overflow:hidden;}
+.admin-header{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid rgba(200,0,0,0.2);background:rgba(0,0,0,0.4);}
+.admin-title{font-family:"Cinzel",serif;font-size:16px;letter-spacing:4px;color:#cc0000;}
+.admin-back{background:transparent;border:1px solid rgba(200,0,0,0.25);border-radius:8px;padding:6px 14px;font-family:"Cinzel",serif;font-size:9px;letter-spacing:2px;color:rgba(200,100,100,0.6);cursor:pointer;}
+.admin-back:hover{color:#cc0000;border-color:rgba(200,0,0,0.5);}
+.admin-body{display:flex;flex:1;overflow:hidden;gap:0;}
+.admin-sidebar{width:200px;border-right:1px solid rgba(200,0,0,0.15);display:flex;flex-direction:column;padding:12px 0;background:rgba(0,0,0,0.2);}
+.admin-tab{font-family:"Cinzel",serif;font-size:10px;letter-spacing:2px;color:rgba(200,100,100,0.45);padding:11px 18px;cursor:pointer;border-left:2px solid transparent;transition:all .2s;}
+.admin-tab:hover{color:#cc0000;background:rgba(200,0,0,0.07);}
+.admin-tab.active{color:#cc0000;border-left-color:#cc0000;background:rgba(200,0,0,0.1);}
+.admin-content{flex:1;overflow-y:auto;padding:20px 24px;}
+.admin-content::-webkit-scrollbar{width:3px;}
+.admin-content::-webkit-scrollbar-thumb{background:rgba(200,0,0,0.2);}
+.admin-section{margin-bottom:24px;}
+.admin-sh{font-family:"Cinzel",serif;font-size:9px;letter-spacing:3px;color:rgba(200,100,100,0.4);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid rgba(200,0,0,0.1);}
+.admin-card{background:rgba(0,0,0,0.3);border:1px solid rgba(200,0,0,0.12);border-radius:10px;padding:14px 16px;margin-bottom:8px;}
+.admin-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:1px solid rgba(200,0,0,0.07);}
+.admin-row:last-child{border-bottom:none;}
+.admin-label{font-family:"Cinzel",serif;font-size:10px;letter-spacing:1px;color:rgba(200,100,100,0.5);}
+.admin-val{font-family:"Cinzel",serif;font-size:11px;color:#e0c0c0;font-weight:700;}
+.admin-val.red{color:#cc0000;}
+.admin-val.green{color:#51cf66;}
+.admin-badge{display:inline-block;padding:2px 8px;border-radius:6px;font-family:"Cinzel",serif;font-size:9px;letter-spacing:1px;margin:2px;}
+.badge-red{background:rgba(200,0,0,0.2);color:#ff8080;border:1px solid rgba(200,0,0,0.3);}
+.badge-gold{background:rgba(200,150,0,0.2);color:#ffd700;border:1px solid rgba(200,150,0,0.3);}
+.badge-gray{background:rgba(255,255,255,0.05);color:#aaa;border:1px solid rgba(255,255,255,0.1);}
+.admin-progress{width:100%;height:8px;background:rgba(200,0,0,0.1);border-radius:4px;overflow:hidden;margin-top:4px;}
+.admin-progress-fill{height:100%;background:linear-gradient(90deg,#8b0000,#cc0000);border-radius:4px;transition:width .5s;}
+.admin-game-list{display:flex;flex-direction:column;gap:8px;}
+.admin-game-item{background:rgba(0,0,0,0.3);border:1px solid rgba(200,0,0,0.1);border-radius:8px;padding:10px 14px;cursor:pointer;transition:all .2s;}
+.admin-game-item:hover{border-color:rgba(200,0,0,0.35);background:rgba(200,0,0,0.08);}
+.admin-game-id{font-family:"Cinzel",serif;font-size:11px;letter-spacing:2px;color:#cc0000;}
+.admin-game-info{font-family:"Cinzel",serif;font-size:9px;letter-spacing:1px;color:rgba(200,100,100,0.45);margin-top:3px;}
+.admin-no-game{font-family:"Cinzel",serif;font-size:11px;letter-spacing:2px;color:rgba(200,100,100,0.25);text-align:center;padding:32px;}
+
 /* effects */
 .suher{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);font-family:"Cinzel",serif;font-size:26px;letter-spacing:4px;color:#cc0000;text-shadow:0 0 35px rgba(200,0,0,0.85);z-index:9997;pointer-events:none;animation:pf 2s ease-out forwards;text-align:center;}
 .penalty{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:#200000;border:1px solid rgba(200,0,0,0.48);border-radius:15px;padding:18px 28px;font-family:"Cinzel",serif;font-size:15px;letter-spacing:2px;color:#ff8080;z-index:9997;pointer-events:none;animation:pf 2.2s ease-out forwards;text-align:center;}
@@ -370,16 +409,19 @@ function findCombos(hc,tcs){
 }
 
 let myName="",myRole="",roomId="",roomRef=null,roomUnsub=null;
+let myEmail="",myIsAdmin=false;
 let myPhoto="",isGuest=false;
 let selH=-1,selT=[];
 let G=null,prevG=null,animating=false;
 
 function show(id){
-  ["screen-auth","screen-home","screen-lobby","screen-searching","screen-game","screen-win","screen-leaderboard"]
+  ["screen-auth","screen-home","screen-lobby","screen-searching","screen-game","screen-win","screen-leaderboard","screen-admin"]
     .forEach(s=>document.getElementById(s).style.display=s===id?"flex":"none");
   // Show logo everywhere except auth screen
   const logo=document.getElementById("site-logo");
   if(logo) logo.style.display=id==="screen-auth"?"none":"flex";
+  const adminBtn=document.getElementById("admin-btn");
+  if(adminBtn&&myIsAdmin) adminBtn.style.display=["screen-home","screen-game","screen-lobby"].includes(id)?"flex":"none";
 }
 function closeModals(){
   ["coin-modal","deal-modal","round-modal","rules-modal"].forEach(id=>{
@@ -401,7 +443,7 @@ async function playAsGuest(){
   const n=document.getElementById("gname").value.trim();
   if(!n||n.length<2){document.getElementById("gname").style.borderColor="rgba(200,0,0,0.6)";return;}
   isGuest=true;myName=n;myPhoto="";
-  await ensurePlayer(n);renderUser();show("screen-home");
+  await ensurePlayer(n);renderUser();showAdminBtn();show("screen-home");
 }
 async function signOutUser(){if(!isGuest)await signOut(auth);myName="";myPhoto="";isGuest=false;show("screen-auth");}
 function renderUser(){
@@ -423,6 +465,22 @@ async function onNameInput(){
 async function ensurePlayer(name){
   const snap=await get(ref(db,`paso/players/${name}`));
   if(!snap.exists())await set(ref(db,`paso/players/${name}`),{points:0,wins:0,losses:0});
+}
+
+async function ensureAdmins(){
+  const snap=await get(ref(db,"paso/admins"));
+  if(!snap.exists()){
+    await set(ref(db,"paso/admins"),{
+      "gosha":{email:"gosha.zisel@gmail.com",name:"Gosha"}
+    });
+  }
+}
+
+async function isAdmin(email){
+  const snap=await get(ref(db,"paso/admins"));
+  if(!snap.exists())return false;
+  const admins=snap.val();
+  return Object.values(admins).some(a=>a.email===email);
 }
 function mkRoom(ranked){
   return{host:myName,guest:"",status:"waiting",ranked,deck:buildDeck(),
@@ -821,6 +879,252 @@ function fly(card,fromEl,toEl,ms,fd,onDone){
   requestAnimationFrame(frame);
 }
 
+// ── ADMIN PANEL ───────────────────────────────────────────────────────────
+let adminCurrentTab = 'live';
+let adminUnsub = null;
+
+function showAdminBtn(){
+  const btn = document.getElementById('admin-btn');
+  if(btn && myIsAdmin) btn.style.display='flex';
+}
+
+function openAdmin(){
+  const screens = ["screen-auth","screen-home","screen-lobby","screen-searching","screen-game","screen-win","screen-leaderboard"];
+  screens.forEach(s=>document.getElementById(s).style.display='none');
+  document.getElementById('screen-admin').style.display='flex';
+  adminTab(adminCurrentTab);
+}
+
+function closeAdmin(){
+  document.getElementById('screen-admin').style.display='none';
+  showHome();
+}
+
+function adminTab(tab){
+  adminCurrentTab = tab;
+  ['live','rooms','players','deck'].forEach(t=>{
+    const el = document.getElementById('atab-'+t);
+    if(el) el.classList.toggle('active', t===tab);
+  });
+  if(tab==='live') renderAdminLive();
+  else if(tab==='rooms') renderAdminRooms();
+  else if(tab==='players') renderAdminPlayers();
+  else if(tab==='deck') renderAdminDeck();
+}
+
+function adminHTML(html){ document.getElementById('admin-content').innerHTML = html; }
+
+function cardPtLabel(card){
+  if(card.r==='A') return `<span class="admin-badge badge-gold">A +1</span>`;
+  if(card.r==='J') return `<span class="admin-badge badge-gold">J +1</span>`;
+  if(card.r==='2'&&card.s==='♣') return `<span class="admin-badge badge-gold">2♣ +2</span>`;
+  if(card.r==='10'&&card.s==='♦') return `<span class="admin-badge badge-gold">10♦ +3</span>`;
+  if(card.s==='♠') return `<span class="admin-badge badge-red">♠</span>`;
+  return '';
+}
+
+function calcPileBreakdown(pile){
+  const p = pile||[];
+  const spades = p.filter(c=>c.s==='♠').length;
+  let pts = 0, breakdown = [];
+  if(spades>=7){ pts+=13; breakdown.push('♠ majority: +13'); }
+  p.forEach(c=>{
+    if(c.r==='A'){pts+=1;breakdown.push(`A${c.s} +1`);}
+    if(c.r==='J'){pts+=1;breakdown.push(`J${c.s} +1`);}
+    if(c.r==='2'&&c.s==='♣'){pts+=2;breakdown.push('2♣ +2');}
+    if(c.r==='10'&&c.s==='♦'){pts+=3;breakdown.push('10♦ +3');}
+  });
+  return {pts, breakdown, spades};
+}
+
+function renderAdminLive(){
+  // Watch current game if in one, otherwise show all active rooms
+  const d = G || localState;
+  if(!d || !G){
+    adminHTML('<div class="admin-no-game">Not in a game.<br>Go to Rooms tab to inspect any room.</div>');
+    return;
+  }
+  const hp = calcPileBreakdown(d.hostPile||[]);
+  const gp = calcPileBreakdown(d.guestPile||[]);
+  const deckLeft = (d.deck||[]).length;
+  const totalDealt = 52 - deckLeft;
+  const roundNum = Math.floor(totalDealt/12)+1;
+  const hSuher = d.hostSuher||0;
+  const gSuher = d.guestSuher||0;
+  const hPts = (d.hostPoints||0);
+  const gPts = (d.guestPoints||0);
+
+  let html = `
+  <div class="admin-section">
+    <div class="admin-sh">ROUND INFO</div>
+    <div class="admin-card">
+      <div class="admin-row"><span class="admin-label">Round</span><span class="admin-val red">#${roundNum}</span></div>
+      <div class="admin-row"><span class="admin-label">Deck remaining</span><span class="admin-val">${deckLeft} / 52</span></div>
+      <div class="admin-row"><span class="admin-label">Phase</span><span class="admin-val">${d.phase||'—'}</span></div>
+      <div class="admin-row"><span class="admin-label">Turn</span><span class="admin-val red">${d.turn==='host'?d.host:d.guest}</span></div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="admin-sh">SCORES</div>
+    <div class="admin-card">
+      <div class="admin-row"><span class="admin-label">${d.host}</span><span class="admin-val red">${hPts} pts</span></div>
+      <div class="admin-progress"><div class="admin-progress-fill" style="width:${Math.min(hPts/104*100,100)}%"></div></div>
+      <div style="margin-top:8px;"></div>
+      <div class="admin-row"><span class="admin-label">${d.guest||'Guest'}</span><span class="admin-val red">${gPts} pts</span></div>
+      <div class="admin-progress"><div class="admin-progress-fill" style="width:${Math.min(gPts/104*100,100)}%"></div></div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="admin-sh">${d.host} — PILE BREAKDOWN</div>
+    <div class="admin-card">
+      <div class="admin-row"><span class="admin-label">Spades collected</span><span class="admin-val ${hp.spades>=7?'green':''}">${hp.spades} / 13 ${hp.spades>=7?'✓ +13':''}</span></div>
+      <div class="admin-row"><span class="admin-label">Round points (no suhèr)</span><span class="admin-val red">${hp.pts}</span></div>
+      <div class="admin-row"><span class="admin-label">Suhèr bonus</span><span class="admin-val green">+${hSuher} pts (${hSuher/5} times)</span></div>
+      <div class="admin-row"><span class="admin-label">Total this round</span><span class="admin-val red">${hp.pts+hSuher} / 26</span></div>
+      <div style="margin-top:8px;">${hp.breakdown.map(b=>`<span class="admin-badge badge-gold">${b}</span>`).join('')||'<span class="admin-badge badge-gray">No points yet</span>'}</div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="admin-sh">${d.guest||'Guest'} — PILE BREAKDOWN</div>
+    <div class="admin-card">
+      <div class="admin-row"><span class="admin-label">Spades collected</span><span class="admin-val ${gp.spades>=7?'green':''}">${gp.spades} / 13 ${gp.spades>=7?'✓ +13':''}</span></div>
+      <div class="admin-row"><span class="admin-label">Round points (no suhèr)</span><span class="admin-val red">${gp.pts}</span></div>
+      <div class="admin-row"><span class="admin-label">Suhèr bonus</span><span class="admin-val green">+${gSuher} pts (${gSuher/5} times)</span></div>
+      <div class="admin-row"><span class="admin-label">Total this round</span><span class="admin-val red">${gp.pts+gSuher} / 26</span></div>
+      <div style="margin-top:8px;">${gp.breakdown.map(b=>`<span class="admin-badge badge-gold">${b}</span>`).join('')||'<span class="admin-badge badge-gray">No points yet</span>'}</div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="admin-sh">TABLE CARDS</div>
+    <div class="admin-card">
+      <div style="display:flex;flex-wrap:wrap;gap:4px;">
+        ${(d.tableCards||[]).length===0?'<span class="admin-badge badge-gray">Empty</span>':
+          (d.tableCards||[]).map(c=>`<span class="admin-badge ${c.s==='♠'||c.s==='♣'?'badge-red':'badge-gray'}">${c.r}${c.s}</span>`).join('')}
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-section">
+    <div class="admin-sh">LAST MOVE</div>
+    <div class="admin-card">
+      ${d.lastMove?`
+      <div class="admin-row"><span class="admin-label">Player</span><span class="admin-val red">${d.lastMove.player}</span></div>
+      <div class="admin-row"><span class="admin-label">Type</span><span class="admin-val">${d.lastMove.type}</span></div>
+      <div class="admin-row"><span class="admin-label">Card played</span><span class="admin-val">${d.lastMove.handCard?.r}${d.lastMove.handCard?.s}</span></div>
+      <div class="admin-row"><span class="admin-label">Table cards taken</span><span class="admin-val">${(d.lastMove.tableCards||[]).map(c=>c.r+c.s).join(', ')||'none'}</span></div>
+      `:'<span class="admin-badge badge-gray">No moves yet</span>'}
+    </div>
+  </div>`;
+
+  adminHTML(html);
+}
+
+async function renderAdminRooms(){
+  adminHTML('<div class="admin-no-game">Loading rooms...</div>');
+  try{
+    const [rSnap, qSnap] = await Promise.all([
+      get(ref(db,'paso/rooms')),
+      get(ref(db,'paso/ranked_queue'))
+    ]);
+    let rooms = [];
+    if(rSnap.exists()) Object.entries(rSnap.val()).forEach(([id,v])=>rooms.push({id,type:'private',...v}));
+    if(qSnap.exists()) Object.entries(qSnap.val()).forEach(([id,v])=>rooms.push({id,type:'ranked',...v}));
+    rooms.sort((a,b)=>(b.createdAt||0)-(a.createdAt||0));
+    if(!rooms.length){adminHTML('<div class="admin-no-game">No rooms found.</div>');return;}
+    let html = '<div class="admin-section"><div class="admin-sh">ALL ROOMS ('+rooms.length+')</div><div class="admin-game-list">';
+    rooms.forEach(r=>{
+      const age = r.createdAt?Math.floor((Date.now()-r.createdAt)/60000)+'m ago':'?';
+      html+=`<div class="admin-game-item">
+        <div class="admin-game-id">${r.id} <span class="admin-badge ${r.type==='ranked'?'badge-gold':'badge-gray'}">${r.type}</span></div>
+        <div class="admin-game-info">${r.host||'?'} vs ${r.guest||'waiting'} · ${r.status} · ${age} · deck: ${(r.deck||[]).length} cards</div>
+        <div class="admin-game-info">Phase: ${r.phase||'?'} · Host pts: ${r.hostPoints||0} · Guest pts: ${r.guestPoints||0}</div>
+      </div>`;
+    });
+    html += '</div></div>';
+    adminHTML(html);
+  }catch(e){adminHTML('<div class="admin-no-game">Error: '+e.message+'</div>');}
+}
+
+async function renderAdminPlayers(){
+  adminHTML('<div class="admin-no-game">Loading players...</div>');
+  try{
+    const snap = await get(ref(db,'paso/players'));
+    if(!snap.exists()){adminHTML('<div class="admin-no-game">No players.</div>');return;}
+    const players = Object.entries(snap.val())
+      .map(([name,v])=>({name,...v}))
+      .sort((a,b)=>(b.points||0)-(a.points||0));
+    let html = `<div class="admin-section"><div class="admin-sh">ALL PLAYERS (${players.length})</div><div class="admin-card">`;
+    players.forEach((p,i)=>{
+      const t = tierOf(p.points||0);
+      html+=`<div class="admin-row">
+        <span class="admin-label">${i+1}. ${t.i} ${p.name}</span>
+        <span class="admin-val">${p.points||0} pts &nbsp; <span style="color:rgba(200,100,100,0.4);font-size:9px;">${p.wins||0}W ${p.losses||0}L</span></span>
+      </div>`;
+    });
+    html += '</div></div>';
+    adminHTML(html);
+  }catch(e){adminHTML('<div class="admin-no-game">Error: '+e.message+'</div>');}
+}
+
+function renderAdminDeck(){
+  const d = G;
+  if(!d){adminHTML('<div class="admin-no-game">Not in a game. Join a game to check deck.</div>');return;}
+
+  // Check for duplicates across all card locations
+  const allCards = [
+    ...(d.hostHand||[]).map(c=>({...c,loc:'Host Hand'})),
+    ...(d.guestHand||[]).map(c=>({...c,loc:'Guest Hand'})),
+    ...(d.tableCards||[]).map(c=>({...c,loc:'Table'})),
+    ...(d.hostPile||[]).map(c=>({...c,loc:'Host Pile'})),
+    ...(d.guestPile||[]).map(c=>({...c,loc:'Guest Pile'})),
+    ...(d.deck||[]).map(c=>({...c,loc:'Deck'})),
+  ];
+
+  const seen = {};
+  const dupes = [];
+  allCards.forEach(c=>{
+    const key = c.r+c.s;
+    if(seen[key]){ dupes.push(`${key} (${seen[key]} + ${c.loc})`); }
+    else seen[key] = c.loc;
+  });
+
+  const SUITS=['♠','♥','♦','♣'];
+  const RANKS=['A','2','3','4','5','6','7','8','9','10','J','Q','K'];
+  const missing = [];
+  SUITS.forEach(s=>RANKS.forEach(r=>{if(!seen[r+s])missing.push(r+s);}));
+
+  let html = `
+  <div class="admin-section">
+    <div class="admin-sh">DECK INTEGRITY</div>
+    <div class="admin-card">
+      <div class="admin-row"><span class="admin-label">Total cards tracked</span><span class="admin-val ${allCards.length===52?'green':'red'}">${allCards.length} / 52</span></div>
+      <div class="admin-row"><span class="admin-label">Duplicates found</span><span class="admin-val ${dupes.length===0?'green':'red'}">${dupes.length===0?'✓ None':dupes.length+' FOUND'}</span></div>
+      <div class="admin-row"><span class="admin-label">Missing cards</span><span class="admin-val ${missing.length===0?'green':'red'}">${missing.length===0?'✓ None':missing.length+' missing'}</span></div>
+    </div>
+  </div>`;
+
+  if(dupes.length>0){
+    html+=`<div class="admin-section"><div class="admin-sh">DUPLICATE CARDS</div><div class="admin-card">
+      ${dupes.map(d=>`<div class="admin-badge badge-red">${d}</div>`).join('')}
+    </div></div>`;
+  }
+
+  html+=`<div class="admin-section"><div class="admin-sh">CARD LOCATIONS</div><div class="admin-card">
+    <div class="admin-row"><span class="admin-label">In Deck</span><span class="admin-val">${(d.deck||[]).length}</span></div>
+    <div class="admin-row"><span class="admin-label">Host Hand</span><span class="admin-val">${(d.hostHand||[]).length} — ${(d.hostHand||[]).map(c=>c.r+c.s).join(', ')||'empty'}</span></div>
+    <div class="admin-row"><span class="admin-label">Guest Hand</span><span class="admin-val">${(d.guestHand||[]).length} — ${(d.guestHand||[]).map(c=>c.r+c.s).join(', ')||'empty'}</span></div>
+    <div class="admin-row"><span class="admin-label">Table</span><span class="admin-val">${(d.tableCards||[]).length} — ${(d.tableCards||[]).map(c=>c.r+c.s).join(', ')||'empty'}</span></div>
+    <div class="admin-row"><span class="admin-label">Host Pile</span><span class="admin-val">${(d.hostPile||[]).length} cards</span></div>
+    <div class="admin-row"><span class="admin-label">Guest Pile</span><span class="admin-val">${(d.guestPile||[]).length} cards</span></div>
+  </div></div>`;
+
+  adminHTML(html);
+}
+
 window.signInGoogle=signInGoogle;window.playAsGuest=playAsGuest;window.signOutUser=signOutUser;
 window.showHome=showHome;window.goToLobby=goToLobby;window.goToLeaderboard=goToLeaderboard;
 window.openRules=()=>document.getElementById("rules-modal").classList.add("open");
@@ -828,11 +1132,49 @@ window.closeRules=()=>document.getElementById("rules-modal").classList.remove("o
 window.onNameInput=onNameInput;window.playRanked=playRanked;window.createPrivate=createPrivate;
 window.joinPrivate=joinPrivate;window.backToLobby=backToLobby;window.confirmPlay=confirmPlay;
 window.dropCard=dropCard;window.pickCoin=pickCoin;window.dealChoice=dealChoice;
+window.openAdmin=openAdmin;
+window.closeAdmin=closeAdmin;
+window.adminTab=adminTab;
 
 onAuthStateChanged(auth,async user=>{
-  if(user){myName=user.displayName||user.email.split("@")[0];myPhoto=user.photoURL||"";isGuest=false;await ensurePlayer(myName);renderUser();show("screen-home");}
-  else if(!isGuest){show("screen-auth");}
+  await ensureAdmins();
+  if(user){
+    myName=user.displayName||user.email.split("@")[0];
+    myPhoto=user.photoURL||"";
+    isGuest=false;
+    myEmail=user.email||"";
+    myIsAdmin=await isAdmin(myEmail);
+    await ensurePlayer(myName);
+    renderUser();
+    show("screen-home");
+  } else if(!isGuest){
+    show("screen-auth");
+  }
 });
 </script>
+<!-- ADMIN BUTTON (only for admins, shown on home/game screens) -->
+<div class="admin-btn" id="admin-btn" onclick="window.openAdmin()" title="Admin Panel">⚙</div>
+
+<!-- ADMIN SCREEN -->
+<div class="screen" id="screen-admin">
+  <div class="admin-wrap">
+    <div class="admin-header">
+      <div class="admin-title">⚙ ADMIN PANEL</div>
+      <button class="admin-back" onclick="window.closeAdmin()">← BACK</button>
+    </div>
+    <div style="display:flex;flex:1;overflow:hidden;">
+      <div class="admin-sidebar">
+        <div class="admin-tab active" onclick="window.adminTab('live')" id="atab-live">🔴 LIVE GAME</div>
+        <div class="admin-tab" onclick="window.adminTab('rooms')" id="atab-rooms">🃏 ALL ROOMS</div>
+        <div class="admin-tab" onclick="window.adminTab('players')" id="atab-players">👤 PLAYERS</div>
+        <div class="admin-tab" onclick="window.adminTab('deck')" id="atab-deck">🂠 DECK CHECK</div>
+      </div>
+      <div class="admin-content" id="admin-content">
+        <div class="admin-no-game">Select a tab to view data</div>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
