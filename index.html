@@ -12,6 +12,24 @@ body{background:#050f07;font-family:'Crimson Text',serif;min-height:100vh;displa
 /* ── SCREENS ── */
 .screen{display:none;width:100vw;height:100vh;align-items:center;justify-content:center;flex-direction:column;}
 
+/* ── AUTH SCREEN ── */
+#screen-auth{background:radial-gradient(ellipse 80% 60% at 50% 40%,#1c4a28,#071a0d);}
+.auth-box{background:rgba(0,0,0,0.55);border:1px solid rgba(212,175,55,0.18);border-radius:20px;padding:44px 48px;width:360px;display:flex;flex-direction:column;align-items:center;gap:18px;backdrop-filter:blur(8px);box-shadow:0 24px 64px rgba(0,0,0,0.7);}
+.auth-logo{font-family:'Cinzel',serif;font-size:42px;letter-spacing:14px;color:#d4af37;text-shadow:0 0 40px rgba(212,175,55,0.35);}
+.auth-sub{font-family:'Cinzel',serif;font-size:9px;letter-spacing:5px;color:rgba(212,175,55,0.3);margin-top:-12px;}
+.auth-divider{width:100%;height:1px;background:rgba(212,175,55,0.1);}
+.auth-divider-label{font-family:'Cinzel',serif;font-size:9px;letter-spacing:3px;color:rgba(212,175,55,0.25);position:relative;width:100%;text-align:center;}
+.auth-divider-label::before,.auth-divider-label::after{content:'';position:absolute;top:50%;width:38%;height:1px;background:rgba(212,175,55,0.1);}
+.auth-divider-label::before{left:0;}.auth-divider-label::after{right:0;}
+.btn-google{width:100%;padding:13px;border-radius:10px;border:none;cursor:pointer;font-family:'Cinzel',serif;font-size:12px;letter-spacing:2px;background:white;color:#1a1a2e;display:flex;align-items:center;justify-content:center;gap:10px;transition:transform 0.15s,box-shadow 0.15s;box-shadow:0 4px 16px rgba(0,0,0,0.3);}
+.btn-google:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,0.4);}
+.google-icon{width:20px;height:20px;}
+.btn-guest{width:100%;padding:12px;border-radius:10px;border:1px solid rgba(212,175,55,0.2);cursor:pointer;font-family:'Cinzel',serif;font-size:11px;letter-spacing:2px;background:rgba(255,255,255,0.05);color:rgba(212,175,55,0.6);transition:all 0.15s;}
+.btn-guest:hover{background:rgba(255,255,255,0.09);border-color:rgba(212,175,55,0.4);}
+.guest-row{display:flex;gap:8px;width:100%;}
+.guest-row input{flex:1;}
+.guest-row .btn-guest{width:auto;padding:12px 16px;white-space:nowrap;}
+
 /* ── HOME SCREEN ── */
 #screen-home{background:radial-gradient(ellipse 80% 60% at 50% 40%,#1c4a28,#071a0d);gap:0;}
 .home-wrap{display:flex;flex-direction:column;align-items:center;width:100%;max-width:420px;gap:0;}
@@ -181,6 +199,31 @@ input[type=text]::placeholder{color:rgba(212,175,55,0.25);}
 <body>
 <div id="fly-layer"></div>
 
+<!-- AUTH SCREEN -->
+<div class="screen" id="screen-auth">
+  <div class="auth-box">
+    <div class="auth-logo">PASO</div>
+    <div class="auth-sub">THE CARD GAME</div>
+    <div class="auth-divider"></div>
+
+    <button class="btn-google" onclick="signInGoogle()">
+      <img src="https://www.google.com/favicon.ico" style="width:18px;height:18px;">
+      CONTINUE WITH GOOGLE
+    </button>
+
+    <div class="auth-divider-label">OR PLAY AS GUEST</div>
+
+    <div class="guest-row">
+      <input type="text" id="guest-name-input" placeholder="ENTER NAME" maxlength="16"
+        style="text-align:left;padding-left:14px;"
+        onkeydown="if(event.key==='Enter') playAsGuest()"
+        oninput="this.style.borderColor='rgba(212,175,55,0.2)'">
+      <button class="btn-guest" onclick="playAsGuest()">GO →</button>
+    </div>
+    <div style="font-family:'Cinzel',serif;font-size:8px;letter-spacing:2px;color:rgba(255,255,255,0.15);text-align:center;">Guest progress is not saved permanently</div>
+  </div>
+</div>
+
 <!-- RULES MODAL -->
 <div class="rules-modal" id="rules-modal">
   <div class="rules-box">
@@ -231,6 +274,8 @@ input[type=text]::placeholder{color:rgba(212,175,55,0.25);}
       <button class="home-btn home-btn-leaderboard" onclick="goToLeaderboard()">🏆 &nbsp;LEADERBOARD</button>
       <button class="home-btn home-btn-rules" onclick="openRules()">📖 &nbsp;HOW TO PLAY</button>
     </div>
+    <div id="home-user-badge" style="display:flex;align-items:center;gap:8px;margin-top:16px;cursor:pointer;" onclick="signOutUser()" title="Sign out"></div>
+    <div style="font-family:'Cinzel',serif;font-size:7px;letter-spacing:2px;color:rgba(255,255,255,0.1);margin-top:4px;">TAP NAME TO SIGN OUT</div>
     <div class="home-version">PASO v1.0 · BETA</div>
   </div>
 </div>
@@ -238,6 +283,9 @@ input[type=text]::placeholder{color:rgba(212,175,55,0.25);}
 <!-- LEADERBOARD -->
 <div class="screen" id="screen-leaderboard">
   <div class="lb-box">
+    <div style="width:100%;display:flex;align-items:center;margin-bottom:-8px;">
+      <button onclick="showHome()" style="background:transparent;border:none;cursor:pointer;font-family:Cinzel,serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.4);padding:0;">← BACK</button>
+    </div>
     <div class="lb-title">🏆 LEADERBOARD</div>
     <div class="lb-list" id="lb-list"><div class="lb-loading">Loading...</div></div>
     <button class="home-btn home-btn-leaderboard" style="font-size:10px;padding:10px;" onclick="showHome()">← BACK</button>
@@ -247,6 +295,9 @@ input[type=text]::placeholder{color:rgba(212,175,55,0.25);}
 <!-- LOBBY -->
 <div class="screen" id="screen-lobby">
   <div class="lobby-box">
+    <div style="width:100%;display:flex;align-items:center;margin-bottom:-8px;">
+      <button onclick="showHome()" style="background:transparent;border:none;cursor:pointer;font-family:Cinzel,serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.4);padding:0;">← BACK</button>
+    </div>
     <div class="game-logo">PASO</div>
     <div class="logo-sub">ONLINE CARD GAME</div>
     <div class="divider"></div>
@@ -358,6 +409,8 @@ input[type=text]::placeholder{color:rgba(212,175,55,0.25);}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
 import { getDatabase, ref, set, get, update, onValue, remove }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+import { getAuth, signInWithPopup, signOut, GoogleAuthProvider, onAuthStateChanged }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDCXw1r1TaW7duObCkur3o7ZSVsrl4zAuI",
@@ -368,8 +421,10 @@ const firebaseConfig = {
   messagingSenderId: "527570831544",
   appId: "1:527570831544:web:adddf210cbe9776d184c4d"
 };
-const app = initializeApp(firebaseConfig);
-const db  = getDatabase(app);
+const app      = initializeApp(firebaseConfig);
+const db       = getDatabase(app);
+const auth     = getAuth(app);
+const provider = new GoogleAuthProvider();
 
 // ── CONSTANTS ─────────────────────────────────────────────────────────────
 const SUITS = ['♠','♥','♦','♣'];
@@ -428,12 +483,13 @@ function calcEndOfRoundPoints(pile){
 
 // ── STATE ─────────────────────────────────────────────────────────────────
 let myName='',myRole='',roomId='',roomRef=null,roomUnsub=null;
+let myPhotoURL='', isGuest=false;
 let selectedHandIdx=-1, selectedTableIdxs=[];
 let localState=null, animating=false;
 
 // ── SCREENS ───────────────────────────────────────────────────────────────
 function show(id){
-  ['screen-home','screen-lobby','screen-searching','screen-game','screen-win','screen-leaderboard'].forEach(s=>{
+  ['screen-auth','screen-home','screen-lobby','screen-searching','screen-game','screen-win','screen-leaderboard'].forEach(s=>{
     document.getElementById(s).style.display=s===id?'flex':'none';
   });
 }
@@ -479,6 +535,55 @@ window.goToLeaderboard = async function(){
 };
 
 // ── LOBBY ─────────────────────────────────────────────────────────────────
+// ── AUTH FUNCTIONS ───────────────────────────────────────────────────────
+window.signInGoogle = async function(){
+  try {
+    provider.setCustomParameters({ prompt: 'select_account' });
+    const result = await signInWithPopup(auth, provider);
+    // onAuthStateChanged handles the rest
+  } catch(e){
+    console.error('Google sign in error:', e.code, e.message);
+    if(e.code === 'auth/popup-blocked'){
+      alert('Popup was blocked! Please allow popups for this site in your browser settings.');
+    } else if(e.code === 'auth/unauthorized-domain'){
+      alert('This domain is not authorized in Firebase. Go to Firebase Console → Authentication → Settings → Authorized domains and add this domain.');
+    } else {
+      alert('Sign in failed: ' + e.message);
+    }
+  }
+};
+
+window.playAsGuest = function(){
+  const name = document.getElementById('guest-name-input').value.trim();
+  if(!name || name.length < 2){ 
+    document.getElementById('guest-name-input').style.borderColor='rgba(239,68,68,0.6)';
+    return; 
+  }
+  isGuest = true;
+  myName = name;
+  myPhotoURL = '';
+  ensurePlayer(myName).then(()=>{
+    renderAuthUser();
+    show('screen-home');
+  });
+};
+
+window.signOutUser = async function(){
+  if(!isGuest) await signOut(auth);
+  myName=''; myPhotoURL=''; isGuest=false;
+  show('screen-auth');
+};
+
+function renderAuthUser(){
+  // Update home screen user badge
+  const badge = document.getElementById('home-user-badge');
+  if(!badge) return;
+  const avatar = myPhotoURL 
+    ? `<img src="${myPhotoURL}" style="width:28px;height:28px;border-radius:50%;border:1px solid rgba(212,175,55,0.3);">`
+    : `<div style="width:28px;height:28px;border-radius:50%;background:rgba(212,175,55,0.2);display:flex;align-items:center;justify-content:center;font-family:Cinzel,serif;font-size:12px;color:#d4af37;">${myName[0].toUpperCase()}</div>`;
+  badge.innerHTML = `${avatar}<span style="font-family:Cinzel,serif;font-size:10px;letter-spacing:2px;color:rgba(212,175,55,0.6);">${myName}</span>`;
+}
+
 async function loadLobby(){
   show('screen-lobby');
   selectedHandIdx=-1; selectedTableIdxs=[];
@@ -1138,7 +1243,23 @@ function flyCard(card,fromEl,toEl,ms,faceDown,onDone){
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────
-show('screen-home');
+show('screen-auth');
+
+// Listen for auth state
+onAuthStateChanged(auth, async (user) => {
+  if(user){
+    // Signed in with Google
+    myName = user.displayName || user.email.split('@')[0];
+    myPhotoURL = user.photoURL || '';
+    await ensurePlayer(myName);
+    renderAuthUser();
+    show('screen-home');
+  } else {
+    // Not signed in
+    myName=''; myPhotoURL='';
+    show('screen-auth');
+  }
+});
 </script>
 </body>
 </html>
