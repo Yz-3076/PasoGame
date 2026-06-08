@@ -2,6 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
+<!-- v2.1 -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Paso</title>
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Crimson+Text:wght@400;600&display=swap" rel="stylesheet">
@@ -676,7 +677,7 @@ async function confirmPlay(){
     if(isSuher)showSuher();
     [hc,...selTC].forEach(c=>pile.push(c));myH.splice(selH,1);
     const thk=myRole==="host"?"guestHand":"hostHand";
-    const upd={[hk]:myH,tableCards:newTbl,[pk]:pile,lastCapturerRole:myRole,turn:myRole==="host"?"guest":"host",lastMove:{player:myName,type:"capture",handCard:hc,tableCards:selTC,ts:Date.now()},..isSuher&&{[sk]:(d[sk]||0)+5}};
+    const upd={[hk]:myH,tableCards:newTbl,[pk]:pile,lastCapturerRole:myRole,turn:myRole==="host"?"guest":"host",lastMove:{player:myName,type:"capture",handCard:hc,tableCards:selTC,ts:Date.now()},...(isSuher?{[sk]:(d[sk]||0)+5}:{})};
     if(myH.length===0&&(d[thk]||[]).length===0){if(newTbl.length>0){newTbl.forEach(c=>pile.push(c));upd[pk]=pile;upd.tableCards=[];}upd.phase="dealing";}
     await update(roomRef,upd);selH=-1;selT=[];animating=false;
   });
@@ -701,7 +702,7 @@ async function dropCard(){
       if(isSuher)showSuher();
       [hc,...fTC].forEach(c=>pile.push(c));myH.splice(selH,1);
       const thk=myRole==="host"?"guestHand":"hostHand";
-      const upd={[hk]:myH,tableCards:newTbl,[pk]:pile,lastCapturerRole:myRole,turn:myRole==="host"?"guest":"host",lastMove:{player:myName,type:"forced",handCard:hc,tableCards:fTC,ts:Date.now()},..isSuher&&{[sk]:(d[sk]||0)+5}};
+      const upd={[hk]:myH,tableCards:newTbl,[pk]:pile,lastCapturerRole:myRole,turn:myRole==="host"?"guest":"host",lastMove:{player:myName,type:"forced",handCard:hc,tableCards:fTC,ts:Date.now()},...(isSuher?{[sk]:(d[sk]||0)+5}:{})};
       if(myH.length===0&&(d[thk]||[]).length===0){if(newTbl.length>0){newTbl.forEach(c=>pile.push(c));upd[pk]=pile;upd.tableCards=[];}upd.phase="dealing";}
       await update(roomRef,upd);selH=-1;selT=[];animating=false;
     });
