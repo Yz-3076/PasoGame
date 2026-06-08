@@ -495,13 +495,8 @@ function show(id){
 }
 
 function showHome(){ show('screen-home'); }
-window.showHome = showHome;
-window.drawCard = drawCard;
 
-window.goToLobby = function(){ show('screen-lobby'); loadLobby(); }
 
-window.openRules = function(){ document.getElementById('rules-modal').classList.add('open'); }
-window.closeRules = function(){ document.getElementById('rules-modal').classList.remove('open'); }
 
 window.goToLeaderboard = async function(){
   show('screen-leaderboard');
@@ -1159,6 +1154,29 @@ window.dropCard=async function(){
   }
 };
 
+// ── DRAW CARD ────────────────────────────────────────────────────────────
+async function drawCard(){
+  if(animating) return;
+  const d=localState;
+  if(!d||d.turn!==myRole||d.phase!=='playing') return;
+  const deck=[...(d.deck||[])];
+  if(deck.length===0){ setStatus('Deck is empty!'); return; }
+  animating=true;
+  const card=deck.pop();
+  const myHandKey=myRole==='host'?'hostHand':'guestHand';
+  const myHand=[...(d[myHandKey]||[]),card];
+  const fromEl=document.getElementById('deck-btn');
+  // Create temp target at end of player row
+  const ph=document.createElement('div');
+  ph.style.cssText='width:64px;height:90px;flex-shrink:0;';
+  document.getElementById('player-cards').appendChild(ph);
+  flyCard(card,fromEl,ph,420,true,async()=>{
+    ph.remove();
+    await update(roomRef,{deck,[myHandKey]:myHand});
+    animating=false;
+  });
+}
+
 // ── END GAME ──────────────────────────────────────────────────────────────
 async function endGame(d){
   show('screen-win');
@@ -1264,6 +1282,24 @@ function flyCard(card,fromEl,toEl,ms,faceDown,onDone){
 }
 
 // ── INIT ──────────────────────────────────────────────────────────────────
+// Expose ALL functions to window so HTML onclick attributes can reach them
+window.showHome       = ()=> show('screen-home');
+window.goToLobby      = ()=> { show('screen-lobby'); loadLobby(); };
+window.goToLeaderboard= goToLeaderboard;
+window.openRules      = ()=> document.getElementById('rules-modal').classList.add('open');
+window.closeRules     = ()=> document.getElementById('rules-modal').classList.remove('open');
+window.signInGoogle   = signInGoogle;
+window.playAsGuest    = playAsGuest;
+window.signOutUser    = signOutUser;
+window.backToLobby    = backToLobby;
+window.playRanked     = playRanked;
+window.createPrivate  = createPrivate;
+window.joinPrivate    = joinPrivate;
+window.onNameInput    = onNameInput;
+window.confirmPlay    = confirmPlay;
+window.dropCard       = dropCard;
+window.drawCard       = drawCard;
+
 show('screen-auth');
 
 // Listen for auth state
