@@ -80,11 +80,26 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
 .mbox{background:#1a0000;border:1px solid rgba(180,0,0,0.4);border-radius:20px;padding:42px 46px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;max-width:350px;width:90%;box-shadow:0 0 50px rgba(180,0,0,0.25);}
 .mtitle{font-family:"Cinzel",serif;font-size:19px;letter-spacing:4px;color:#cc0000;}
 .msub{font-family:"Cinzel",serif;font-size:11px;letter-spacing:2px;color:rgba(200,100,100,0.45);}
-.coin-wrap{width:100px;height:100px;position:relative;perspective:400px;}
-.coin{width:100px;height:100px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:52px;background:radial-gradient(circle,#cc0000,#6b0000);border:3px solid rgba(255,150,150,0.3);box-shadow:0 0 30px rgba(200,0,0,0.4);transition:transform 0.1s;}
-.coin-result-big{font-size:48px;animation:coinPop .5s cubic-bezier(.34,1.56,.64,1);}
-@keyframes coinPop{0%{transform:scale(0);}100%{transform:scale(1);}}
+.coin-wrap{width:120px;height:120px;perspective:600px;margin:8px auto;}
+.coin{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:56px;background:radial-gradient(circle at 35% 35%,#ff4444,#8b0000 60%,#4a0000);border:4px solid rgba(255,150,150,0.4);box-shadow:0 0 40px rgba(200,0,0,0.5),inset 0 2px 4px rgba(255,255,255,0.2);transform-style:preserve-3d;}
+.coin.flipping{animation:coinFlip3d 2s ease-out forwards;}
+@keyframes coinFlip3d{
+  0%  {transform:rotateX(0deg) scale(1);}
+  10% {transform:rotateX(720deg) scale(1.1);}
+  25% {transform:rotateX(1440deg) scale(1.15);}
+  45% {transform:rotateX(1980deg) scale(1.1);}
+  65% {transform:rotateX(2340deg) scale(1.05);}
+  80% {transform:rotateX(2580deg) scale(1.02);}
+  90% {transform:rotateX(2700deg) scale(1.01);}
+  100%{transform:rotateX(2880deg) scale(1);}
+}
+.coin-land{animation:coinLand .4s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes coinLand{0%{transform:scale(0.8);}60%{transform:scale(1.15);}100%{transform:scale(1);}}
 .cbtns{display:flex;gap:10px;}
+/* deal animation */
+.deal-anim{font-family:"Cinzel",serif;font-size:13px;letter-spacing:2px;color:#e0b0b0;text-align:center;min-height:40px;display:flex;align-items:center;justify-content:center;}
+.deal-step{animation:dealStep .5s ease-out;}
+@keyframes dealStep{0%{opacity:0;transform:translateY(10px);}100%{opacity:1;transform:translateY(0);}}
 .cbtn{padding:12px 22px;border-radius:11px;border:none;font-family:"Cinzel",serif;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .2s;}
 .cbtn:hover{transform:translateY(-2px);filter:brightness(1.2);}
 .cbtn-h{background:#cc0000;color:white;}
@@ -111,18 +126,19 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
 #screen-game::after{content:"";position:absolute;inset:11px;border:1px solid rgba(200,0,0,0.07);pointer-events:none;}
 .sbar{display:flex;justify-content:space-between;align-items:center;width:100%;z-index:2;background:rgba(0,0,0,0.55);border:1px solid rgba(200,0,0,0.15);border-radius:14px;padding:10px 16px 10px 48px;}
 .sside{display:flex;flex-direction:column;align-items:center;gap:2px;min-width:80px;}
-.sname{font-family:"Cinzel",serif;font-size:10px;letter-spacing:2px;color:rgba(255,180,180,0.6);font-weight:700;}
-.spts{font-family:"Cinzel",serif;font-size:32px;color:#ffffff;line-height:1;font-weight:700;text-shadow:0 0 14px rgba(200,0,0,0.6),0 2px 4px rgba(0,0,0,0.8);}
+.sname{font-family:"Cinzel",serif;font-size:11px;letter-spacing:2px;color:#ffffff;font-weight:800;text-shadow:0 1px 4px rgba(0,0,0,0.8);}
+.spts{font-family:"Cinzel",serif;font-size:34px;color:#ffffff;line-height:1;font-weight:700;text-shadow:0 0 16px rgba(200,0,0,0.7),0 2px 6px rgba(0,0,0,0.9);}
 .stier{font-size:13px;}
+.ssuher{font-family:"Cinzel",serif;font-size:9px;letter-spacing:1px;color:rgba(255,215,0,0.7);margin-top:1px;}
 .smid{display:flex;flex-direction:column;align-items:center;gap:4px;flex:1;padding:0 12px;}
-.strk{width:100%;height:8px;background:rgba(255,255,255,0.06);border-radius:4px;position:relative;overflow:hidden;display:flex;}
-.sfill-l{height:100%;background:linear-gradient(90deg,#8b0000,#cc0000);border-radius:4px 0 0 4px;transition:width .6s;}
-.sfill-r{height:100%;background:linear-gradient(90deg,#cc0000,#8b0000);border-radius:0 4px 4px 0;transition:width .6s;margin-left:auto;}
+.strk{width:100%;height:8px;background:rgba(255,255,255,0.08);border-radius:4px;position:relative;overflow:hidden;display:flex;}
+.sfill-l{height:100%;background:linear-gradient(90deg,#8b0000,#ff3333);border-radius:4px 0 0 4px;transition:width .6s;}
+.sfill-r{height:100%;background:linear-gradient(90deg,#ff3333,#8b0000);border-radius:0 4px 4px 0;transition:width .6s;margin-left:auto;}
 .svs{font-family:"Cinzel",serif;font-size:9px;letter-spacing:3px;color:rgba(200,0,0,0.22);}
-.dinfo{font-family:"Cinzel",serif;font-size:9px;letter-spacing:2px;color:rgba(200,100,100,0.28);}
+.dinfo{font-family:"Cinzel",serif;font-size:10px;letter-spacing:2px;color:rgba(255,255,255,0.75);font-weight:700;}
 .parea{display:flex;flex-direction:column;align-items:center;gap:5px;z-index:2;}
 .crow{display:flex;gap:8px;align-items:flex-end;justify-content:center;flex-wrap:wrap;}
-.alabel{font-family:"Cinzel",serif;font-size:9px;letter-spacing:3px;color:rgba(200,100,100,0.32);}
+.alabel{font-family:"Cinzel",serif;font-size:10px;letter-spacing:3px;color:rgba(255,255,255,0.6);font-weight:700;}
 .crow-c{display:flex;align-items:center;justify-content:center;gap:32px;z-index:2;flex:1;}
 .cslot{display:flex;flex-direction:column;align-items:center;gap:5px;}
 .slabel{font-family:"Cinzel",serif;font-size:9px;letter-spacing:2px;color:rgba(200,100,100,0.28);}
@@ -179,6 +195,35 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
 .rsh{font-family:"Cinzel",serif;font-size:9px;letter-spacing:3px;color:rgba(200,100,100,0.42);margin-top:6px;}
 .rp{font-size:14px;color:#e0c0c0;line-height:1.68;}
 .rclose{background:linear-gradient(135deg,#8b0000,#cc0000);border:none;color:#ffe0e0;font-family:"Cinzel",serif;font-size:10px;letter-spacing:2px;padding:10px 26px;border-radius:17px;cursor:pointer;align-self:center;margin-top:6px;}
+/* ── ROUND END SCREEN ── */
+#screen-roundend{background:radial-gradient(ellipse 80% 60% at 50% 35%,#5a0000,#2a0000 60%,#0d0000 100%);z-index:3000;}
+.re-wrap{display:flex;flex-direction:column;align-items:center;gap:0;width:100%;max-width:520px;padding:24px;}
+.re-title{font-family:"Cinzel",serif;font-size:28px;letter-spacing:8px;color:#cc0000;text-shadow:0 0 30px rgba(200,0,0,0.5);margin-bottom:4px;animation:rePop .5s cubic-bezier(.34,1.56,.64,1);}
+@keyframes rePop{0%{transform:scale(0.5);opacity:0;}100%{transform:scale(1);opacity:1;}}
+.re-round{font-family:"Cinzel",serif;font-size:10px;letter-spacing:4px;color:rgba(200,100,100,0.5);margin-bottom:20px;}
+.re-players{display:flex;gap:16px;width:100%;margin-bottom:16px;}
+.re-player{flex:1;background:rgba(0,0,0,0.4);border:1px solid rgba(200,0,0,0.2);border-radius:16px;padding:18px 16px;display:flex;flex-direction:column;gap:8px;animation:reSlide .4s ease-out;}
+.re-player.winner{border-color:rgba(200,0,0,0.6);box-shadow:0 0 24px rgba(200,0,0,0.2);}
+@keyframes reSlide{0%{transform:translateY(20px);opacity:0;}100%{transform:translateY(0);opacity:1;}}
+.re-pname{font-family:"Cinzel",serif;font-size:12px;letter-spacing:3px;color:#ffffff;font-weight:800;text-align:center;margin-bottom:4px;}
+.re-item{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid rgba(200,0,0,0.08);}
+.re-item:last-child{border-bottom:none;}
+.re-item-label{font-family:"Cinzel",serif;font-size:9px;letter-spacing:1px;color:rgba(200,150,150,0.6);}
+.re-item-val{font-family:"Cinzel",serif;font-size:11px;color:#e0c0c0;font-weight:700;}
+.re-item-val.got{color:#51cf66;}
+.re-item-val.zero{color:rgba(200,100,100,0.3);}
+.re-item-val.red{color:#cc0000;}
+.re-total{display:flex;justify-content:space-between;align-items:center;padding:8px 0 0;margin-top:4px;border-top:1px solid rgba(200,0,0,0.2);}
+.re-total-label{font-family:"Cinzel",serif;font-size:10px;letter-spacing:2px;color:rgba(255,200,200,0.7);}
+.re-total-val{font-family:"Cinzel",serif;font-size:18px;color:#cc0000;font-weight:700;text-shadow:0 0 10px rgba(200,0,0,0.4);}
+.re-suher-cancel{font-family:"Cinzel",serif;font-size:10px;letter-spacing:1px;color:#ff8080;text-align:center;padding:8px 16px;background:rgba(200,0,0,0.1);border-radius:10px;border:1px solid rgba(200,0,0,0.2);width:100%;}
+.re-total-score{display:flex;justify-content:space-between;align-items:center;width:100%;background:rgba(0,0,0,0.35);border-radius:12px;padding:12px 20px;border:1px solid rgba(200,0,0,0.15);}
+.re-tscore-block{display:flex;flex-direction:column;align-items:center;gap:2px;}
+.re-tscore-name{font-family:"Cinzel",serif;font-size:9px;letter-spacing:2px;color:rgba(200,100,100,0.5);}
+.re-tscore-pts{font-family:"Cinzel",serif;font-size:28px;color:#ffffff;font-weight:700;text-shadow:0 0 12px rgba(200,0,0,0.5);}
+.re-tscore-vs{font-family:"Cinzel",serif;font-size:11px;letter-spacing:3px;color:rgba(200,0,0,0.4);}
+.re-next{font-family:"Cinzel",serif;font-size:10px;letter-spacing:2px;color:rgba(200,100,100,0.4);margin-top:8px;text-align:center;}
+
 /* ── ADMIN PANEL ── */
 .admin-btn{position:fixed;bottom:16px;right:16px;z-index:7000;background:rgba(200,0,0,0.15);border:1px solid rgba(200,0,0,0.3);border-radius:50%;width:36px;height:36px;display:none;align-items:center;justify-content:center;cursor:pointer;font-size:16px;transition:all .2s;}
 .admin-btn:hover{background:rgba(200,0,0,0.3);}
@@ -249,20 +294,26 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
 <div class="overlay" id="coin-modal">
 <div class="mbox">
 <div class="mtitle" id="ctitle">COIN FLIP</div>
-<div class="msub" id="csub">Pick a side</div>
-<div class="coin-wrap"><div class="coin" id="coin">🪙</div></div>
-<div class="cbtns" id="cbtns"><button class="cbtn cbtn-h" onclick="window.pickCoin('heads')">HEADS</button><button class="cbtn cbtn-t" onclick="window.pickCoin('tails')">TAILS</button></div>
-<div class="cres" id="cres"></div>
+<div class="msub" id="csub">Pick a side!</div>
+<div class="coin-wrap">
+  <div class="coin" id="coin">🪙</div>
+</div>
+<div class="cbtns" id="cbtns">
+  <button class="cbtn cbtn-h" onclick="window.pickCoin('heads')">😊 HEADS</button>
+  <button class="cbtn cbtn-t" onclick="window.pickCoin('tails')">🐸 TAILS</button>
+</div>
+<div class="cres" id="cres" style="display:none;font-family:Cinzel,serif;font-size:14px;letter-spacing:2px;color:#e0b0b0;text-align:center;"></div>
 </div></div>
 
 <div class="overlay" id="deal-modal">
 <div class="mbox">
-<div class="mtitle">YOU DEAL</div>
+<div class="mtitle" id="deal-modal-title">YOU DEAL</div>
 <div class="msub" id="dsub">Who gets the first 4 cards?</div>
-<div class="dbtns">
-<button class="dbtn" onclick="window.dealChoice('opponent')">OPPONENT<br>first</button>
-<button class="dbtn" onclick="window.dealChoice('table')">TABLE<br>first</button>
+<div class="dbtns" id="deal-btns-row">
+<button class="dbtn" onclick="window.dealChoice('opponent')">👤<br>OPPONENT<br>first</button>
+<button class="dbtn" onclick="window.dealChoice('table')">🃏<br>TABLE<br>first</button>
 </div>
+<div class="deal-anim" id="deal-anim" style="display:none;"></div>
 </div></div>
 
 <div class="overlay" id="round-modal">
@@ -336,6 +387,7 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
   <div class="sname" id="thname">OPP</div>
   <div class="spts" id="thpts">0</div>
   <div class="stier" id="thtier"></div>
+  <div class="ssuher" id="thsuher"></div>
 </div>
 <div class="smid">
   <div class="svs">VS</div>
@@ -349,6 +401,7 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
   <div class="sname" id="myname">YOU</div>
   <div class="spts" id="mypts">0</div>
   <div class="stier" id="mytier"></div>
+  <div class="ssuher" id="mysuher"></div>
 </div>
 </div>
 <div class="parea"><div class="alabel" id="opplabel">OPPONENT</div><div class="crow" id="ecards"></div></div>
@@ -397,10 +450,48 @@ const buildDeck=()=>shuffle(SUITS.flatMap(s=>RANKS.map(r=>({s,r}))));
 const randCode=()=>Math.random().toString(36).substring(2,6).toUpperCase();
 const tierOf=p=>p>=500?{n:"Diamond",i:"💎"}:p>=250?{n:"Gold",i:"🥇"}:p>=100?{n:"Silver",i:"🥈"}:{n:"Bronze",i:"🥉"};
 
+// Live points = points already in pile that count immediately
+// Used during final stretch to update score live
+function calcLivePts(pile){
+  const p=pile||[];let pts=0;
+  p.forEach(c=>{
+    if(c.r==="A")pts+=1;
+    if(c.r==="J")pts+=1;
+    if(c.r==="2"&&c.s==="♣")pts+=2;
+    if(c.r==="10"&&c.s==="♦")pts+=3;
+  });
+  // Note: clubs majority counted at end of round, not live
+  return pts;
+}
+
+function isFinalStretch(d){
+  const hP=d.hostPoints||0;
+  const gP=d.guestPoints||0;
+  // If either player is within 26 points of 104
+  return hP>=78||gP>=78;
+}
+
+function calcLiveTotal(d, role){
+  const pileKey = role==="host"?"hostPile":"guestPile";
+  const ptsKey  = role==="host"?"hostPoints":"guestPoints";
+  const suherKey= role==="host"?"hostSuher":"guestSuher";
+  const basePts = d[ptsKey]||0;
+  if(!isFinalStretch(d)) return basePts;
+  // In final stretch: show live accumulated points
+  const livePile = calcLivePts(d[pileKey]||[]);
+  const suher    = d[suherKey]||0;
+  return basePts + livePile + suher;
+}
+
 function calcRoundPts(pile){
   const p=pile||[];let pts=0;
-  if(p.filter(c=>c.s==="♠").length>=7)pts+=13;
-  p.forEach(c=>{if(c.r==="A")pts+=1;if(c.r==="J")pts+=1;if(c.r==="2"&&c.s==="♣")pts+=2;if(c.r==="10"&&c.s==="♦")pts+=3;});
+  if(p.filter(c=>c.s==="♣").length>=7)pts+=13;
+  p.forEach(c=>{
+    if(c.r==="A")pts+=1;
+    if(c.r==="J")pts+=1;
+    if(c.r==="2"&&c.s==="♣")pts+=2;
+    if(c.r==="10"&&c.s==="♦")pts+=3;
+  });
   return pts;
 }
 
@@ -428,7 +519,7 @@ let selH=-1,selT=[];
 let G=null,prevG=null,animating=false;
 
 function show(id){
-  ["screen-auth","screen-home","screen-lobby","screen-searching","screen-game","screen-win","screen-leaderboard","screen-admin"]
+  ["screen-auth","screen-home","screen-lobby","screen-searching","screen-game","screen-win","screen-leaderboard","screen-admin","screen-roundend"]
     .forEach(s=>document.getElementById(s).style.display=s===id?"flex":"none");
   // Show logo everywhere except auth screen
   const logo=document.getElementById("site-logo");
@@ -564,7 +655,19 @@ function startListening(){
 }
 
 function handlePhase(d){
-  if(d.phase==="coin_flip")doCoin(d);
+  if(d.phase==="coin_flip"){
+    // Only show coin flip on round 1 - after that dealer just switches
+    if((d.roundNum||1)===1){
+      doCoin(d);
+    } else {
+      // Skip coin flip, go straight to deal choice
+      if(myRole==="host"&&!d.dealFirst){
+        update(roomRef,{phase:"deal_choice"});
+      } else {
+        doDeal(d);
+      }
+    }
+  }
   else if(d.phase==="deal_choice")doDeal(d);
   else if(d.phase==="dealing"){if(myRole==="host")dealCards(d);}
   else if(d.phase==="playing"){showOppMove(d);renderGame(d);}
@@ -575,35 +678,30 @@ function handlePhase(d){
 let coinAnimating = false;
 let lastCoinResultSeen = '';
 
-function animateCoin(onDone){
+function animateCoin(result, onDone){
   const el = document.getElementById("coin");
   if(!el) return;
-  let flips = 0;
-  const total = 14 + Math.floor(Math.random()*6);
-  let speed = 60;
-  const faces = ["🪙","⭕","🔴","⚫","🪙","⭕"];
-  let faceIdx = 0;
-  function tick(){
-    el.textContent = faces[faceIdx % faces.length];
-    faceIdx++;
-    flips++;
-    speed = flips < total*0.5 ? Math.max(speed-2,40) : speed+12;
-    if(flips < total){
-      setTimeout(tick, speed);
-    } else {
-      onDone && onDone();
-    }
-  }
-  tick();
+  // Add 3D flip animation
+  el.textContent = "🪙";
+  el.classList.remove("flipping","coin-land");
+  void el.offsetWidth; // reflow to restart animation
+  el.classList.add("flipping");
+
+  setTimeout(()=>{
+    el.classList.remove("flipping");
+    el.textContent = result==="heads" ? "😊" : "🐸";
+    el.classList.add("coin-land");
+    setTimeout(onDone, 500);
+  }, 2000);
 }
 
 function showCoinResult(result, iWon){
-  const el = document.getElementById("coin");
-  el.textContent = result==="heads" ? "😊" : "🐸";
-  el.classList.add("coin-result-big");
   const res = document.getElementById("cres");
   res.style.display = "block";
-  res.textContent = (result==="heads"?"😊 HEADS":"🐸 TAILS") + "  —  " + (iWon?"You win the flip! 🎉":"Opponent wins the flip!");
+  res.innerHTML = `<div style="font-size:20px;margin-bottom:6px;">${result==="heads"?"😊":"🐸"}</div>
+    <div style="font-size:12px;letter-spacing:2px;">${result.toUpperCase()}</div>
+    <div style="font-size:11px;color:${iWon?"#51cf66":"#ff8080"};margin-top:6px;letter-spacing:1px;">${iWon?"🎉 You win the flip!":"Opponent wins the flip!"}</div>
+    <div style="font-size:10px;color:rgba(200,100,100,0.5);margin-top:4px;letter-spacing:1px;">${iWon?"Opponent deals":"You deal"}</div>`;
 }
 
 function doCoin(d){
@@ -631,14 +729,14 @@ function doCoin(d){
     const result = Math.random()<0.5?"heads":"tails";
     const hostWon = result===d.coinPick;
     const dealerRole = hostWon?"guest":"host";
-    animateCoin(async()=>{
+    animateCoin(result, async()=>{
       coinAnimating = false;
       const iWon = hostWon;
       showCoinResult(result, iWon);
       await update(roomRef,{coinResult:result,dealerRole,phase:"deal_choice"});
       setTimeout(()=>{
         document.getElementById("coin-modal").classList.remove("open");
-      },2400);
+      },2800);
     });
   } else if(d.coinResult && myRole==="guest"){
     const iWon = d.dealerRole!==myRole;
@@ -646,12 +744,12 @@ function doCoin(d){
     if(!coinAnimating){
       coinAnimating = true;
       document.getElementById("csub").textContent="Flipping...";
-      animateCoin(()=>{
+      animateCoin(d.coinResult, ()=>{
         coinAnimating = false;
         showCoinResult(d.coinResult, iWon);
         setTimeout(()=>{
           document.getElementById("coin-modal").classList.remove("open");
-        },2400);
+        },2800);
       });
     }
   }
@@ -677,7 +775,33 @@ function doDeal(d){
   }
 }
 async function dealChoice(choice){
-  document.getElementById("deal-modal").classList.remove("open");
+  // Show animated dealing sequence
+  document.getElementById("deal-btns-row").style.display="none";
+  document.getElementById("dsub").style.display="none";
+  const anim = document.getElementById("deal-anim");
+  anim.style.display="flex";
+
+  const oppName = G ? (myRole==="host"?(G.guest||"Opponent"):(G.host||"Opponent")) : "Opponent";
+  const steps = choice==="opponent"
+    ? [`👤 4 cards to ${oppName}`, "🃏 4 cards to the table", "🤲 4 cards to you", "✓ Game starts!"]
+    : ["🃏 4 cards to the table", `👤 4 cards to ${oppName}`, "🤲 4 cards to you", "✓ Game starts!"];
+
+  let i = 0;
+  function nextStep(){
+    if(i >= steps.length){
+      document.getElementById("deal-modal").classList.remove("open");
+      // Reset modal
+      document.getElementById("deal-btns-row").style.display="flex";
+      document.getElementById("dsub").style.display="block";
+      anim.style.display="none";
+      return;
+    }
+    anim.innerHTML = `<div class="deal-step">${steps[i]}</div>`;
+    i++;
+    setTimeout(nextStep, 800);
+  }
+  nextStep();
+
   await update(roomRef,{dealFirst:choice,phase:"dealing"});
 }
 
@@ -717,7 +841,8 @@ async function dealCards(d){
     }
     const hostHand=dealer==="host"?h2:h1;
     const guestHand=dealer==="guest"?h2:h1;
-    await update(roomRef,{deck,hostHand,guestHand,tableCards:tbl,tableReady:true,turn:nonDealer,phase:"playing",lastCapturerRole:"",lastMove:null});
+    await update(roomRef,{deck,hostHand,guestHand,tableCards:tbl,tableReady:true,turn:nonDealer,phase:"playing",lastCapturerRole:"",lastMove:null,
+      hostStartPts:d.hostPoints||0,guestStartPts:d.guestPoints||0});
   } else {
     if(deck.length<8){await tallyRound(d);return;}
     const h1=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];
@@ -767,21 +892,40 @@ function renderGame(d){
   const thP=myRole==="host"?(d.guestPoints||0):(d.hostPoints||0);
   const myT=d.turn===myRole;
   const opp=myRole==="host"?(d.guest||"Opponent"):(d.host||"Opponent");
-  document.getElementById("mypts").textContent=myP;
-  document.getElementById("thpts").textContent=thP;
+  // Show live pts in final stretch
+  const finalStretch = isFinalStretch(d);
+  const thRole = myRole==="host"?"guest":"host";
+  const myDisp = finalStretch ? calcLiveTotal(d,myRole) : myP;
+  const thDisp = finalStretch ? calcLiveTotal(d,thRole) : thP;
+  document.getElementById("mypts").textContent=myDisp;
+  document.getElementById("thpts").textContent=thDisp;
+  document.getElementById("mypts").style.color=finalStretch?"#ff6b6b":"#ffffff";
+  document.getElementById("thpts").style.color=finalStretch?"#ff6b6b":"#ffffff";
   document.getElementById("myname").textContent=myName;
   document.getElementById("thname").textContent=opp;
-  // Proportional bars - each side gets half the track, scaled to 104
-  const maxPts = Math.max(myP, thP, 1);
-  document.getElementById("mybar").style.width=Math.min(myP/104*100,100)+"%";
-  document.getElementById("thbar").style.width=Math.min(thP/104*100,100)+"%";
+  document.getElementById("mybar").style.width=Math.min(myDisp/104*100,100)+"%";
+  document.getElementById("thbar").style.width=Math.min(thDisp/104*100,100)+"%";
   document.getElementById("dinfo").textContent=(d.deck||[]).length+" cards left";
   document.getElementById("opplabel").textContent=opp.toUpperCase();
   const mt=tierOf(myP),tt=tierOf(thP);
   document.getElementById("mytier").textContent=mt.i;
   document.getElementById("thtier").textContent=tt.i;
-  const final=myP>=78||thP>=78;
-  setStat(d.phase==="playing"?(myT?(final?"⚠ FINAL STRETCH — YOUR TURN":"⭐ YOUR TURN"):"OPPONENT'S TURN..."):"");
+  // Suhèr counters
+  const mySuherCount=(myRole==="host"?(d.hostSuher||0):(d.guestSuher||0))/5;
+  const thSuherCount=(myRole==="host"?(d.guestSuher||0):(d.hostSuher||0))/5;
+  const mySuherEl=document.getElementById("mysuher");
+  const thSuherEl=document.getElementById("thsuher");
+  if(mySuherEl) mySuherEl.textContent=mySuherCount>0?"⭐".repeat(Math.min(mySuherCount,5))+" Suhèr ×"+mySuherCount:"";
+  if(thSuherEl) thSuherEl.textContent=thSuherCount>0?"⭐".repeat(Math.min(thSuherCount,5))+" Suhèr ×"+thSuherCount:"";
+  const final=isFinalStretch(d);
+  if(final){
+    document.getElementById("gstatus").style.borderColor="rgba(255,80,80,0.5)";
+    document.getElementById("gstatus").style.color="#ff8080";
+  } else {
+    document.getElementById("gstatus").style.borderColor="rgba(200,0,0,0.13)";
+    document.getElementById("gstatus").style.color="rgba(255,190,190,0.65)";
+  }
+  setStat(d.phase==="playing"?(myT?(final?"🔴 LIVE — YOUR TURN":"⭐ YOUR TURN"):(final?"🔴 LIVE — OPPONENT'S TURN":"OPPONENT'S TURN...")):"");
   renderEH(thH);renderPH(myH,myT&&!animating);renderTC(d.tableCards||[],myT&&!animating);updateBtns();
 }
 function renderEH(hand){const r=document.getElementById("ecards");r.innerHTML="";hand.forEach((_,i)=>{const c=document.createElement("div");c.className="card";c.id="e"+i;c.innerHTML=bk();r.appendChild(c);});}
@@ -824,13 +968,28 @@ async function confirmPlay(){
   animating=true;
   fly(hc,document.getElementById("p"+selH),document.getElementById("deckbtn"),460,false,async()=>{
     const newTbl=tcs.filter((_,i)=>!selT.includes(i));
-    const isSuher=newTbl.length===0&&RV[hc.r]!==11&&(d[pk2]||0)<80;
+    const startPtsKey=myRole==="host"?"hostStartPts":"guestStartPts";
+    const isSuher=newTbl.length===0&&RV[hc.r]!==11&&(d[startPtsKey]!==undefined?d[startPtsKey]:d[pk2]||0)<80;
     if(isSuher)showSuher();
     [hc,...selTC].forEach(c=>pile.push(c));myH.splice(selH,1);
     const thk=myRole==="host"?"guestHand":"hostHand";
     const upd={[hk]:myH,tableCards:newTbl,[pk]:pile,lastCapturerRole:myRole,turn:myRole==="host"?"guest":"host",lastMove:{player:myName,type:"capture",handCard:hc,tableCards:selTC,ts:Date.now()},...(isSuher?{[sk]:(d[sk]||0)+5}:{})};
     if(myH.length===0&&(d[thk]||[]).length===0){if((d.deck||[]).length<8&&newTbl.length>0){newTbl.forEach(c=>pile.push(c));upd[pk]=pile;upd.tableCards=[];}upd.phase="dealing";}
-    await update(roomRef,upd);selH=-1;selT=[];animating=false;
+    await update(roomRef,upd);
+    // Mid-round win check (only in final stretch)
+    if(isFinalStretch(d)){
+      const myLiveNow = calcLiveTotal({...d,...upd}, myRole);
+      const thLiveNow = calcLiveTotal({...d,...upd}, thRole);
+      if(myLiveNow>=104||thLiveNow>=104){
+        const winner = myLiveNow>=104 ? myName : (myRole==="host"?(d.guest||""):(d.host||""));
+        await update(roomRef,{
+          status:"finished",phase:"finished",winner,
+          hostPoints: myRole==="host"?myLiveNow:thLiveNow,
+          guestPoints: myRole==="host"?thLiveNow:myLiveNow
+        });
+      }
+    }
+    selH=-1;selT=[];animating=false;
   });
 }
 
@@ -849,7 +1008,8 @@ async function dropCard(){
     animating=true;
     fly(hc,document.getElementById("p"+selH),document.getElementById("deckbtn"),480,false,async()=>{
       const newTbl=tcs.filter((_,i)=>!combo.includes(i));
-      const isSuher=newTbl.length===0&&RV[hc.r]!==11&&(d[pk2]||0)<80;
+      const startPtsKey=myRole==="host"?"hostStartPts":"guestStartPts";
+      const isSuher=newTbl.length===0&&RV[hc.r]!==11&&(d[startPtsKey]||d[pk2]||0)<80;
       if(isSuher)showSuher();
       [hc,...fTC].forEach(c=>pile.push(c));myH.splice(selH,1);
       const thk=myRole==="host"?"guestHand":"hostHand";
@@ -885,9 +1045,9 @@ async function tallyRound(d){
   const gPts=calcRoundPts(d.guestPile||[])+gSuherFinal;
   const newHP=(d.hostPoints||0)+hPts;
   const newGP=(d.guestPoints||0)+gPts;
-  showRoundEnd(d.host,hPts,newHP,d.guest,gPts,newGP,bothDidSuher,cancelCount);
-  await new Promise(r=>setTimeout(r,3500));
-  document.getElementById("round-modal").classList.remove("open");
+  showRoundEnd(d.host,hPts,newHP,d.guest,gPts,newGP,bothDidSuher,cancelCount,d);
+  await new Promise(r=>setTimeout(r,4500));
+  show("screen-game");
   const newDealer=d.dealerRole==="host"?"guest":"host";
   if(newHP>=104||newGP>=104){
     const winner=newHP>=newGP?d.host:d.guest;
@@ -897,11 +1057,63 @@ async function tallyRound(d){
   const nextRound = (d.roundNum||1)+1;
   await update(roomRef,{deck:buildDeck(),hostHand:[],guestHand:[],tableCards:[],tableReady:false,hostPile:[],guestPile:[],hostSuher:0,guestSuher:0,hostPoints:newHP,guestPoints:newGP,dealerRole:newDealer,phase:"coin_flip",coinPick:"",coinResult:"",dealFirst:"",lastCapturerRole:"",lastMove:null,roundNum:nextRound,coinAnimDone:false});
 }
-function showRoundEnd(hn,hp,ht,gn,gp,gt,suherCancelled,cancelCount){
-  const cancelMsg = suherCancelled ? `<div style="font-family:Cinzel,serif;font-size:10px;letter-spacing:1px;color:#ff8080;text-align:center;padding:6px 0;">⚠ Suhèr offset — ${cancelCount} cancelled on each side!</div>` : '';
-  document.getElementById("recontent").innerHTML=cancelMsg+`<div class="rerow"><span>${hn}</span><span class="repts">+${hp} → ${ht} pts</span></div><div class="rerow"><span>${gn}</span><span class="repts">+${gp} → ${gt} pts</span></div>`;
-  document.getElementById("renext").textContent=(ht>=78||gt>=78)?"⚠ Final stretch — live points count!":"New round starting...";
-  document.getElementById("round-modal").classList.add("open");
+function showRoundEnd(hn,hp,ht,gn,gp,gt,suherCancelled,cancelCount,roundData){
+  const d = roundData || G;
+  if(!d) return;
+
+  const hBD = calcPileBreakdown(d.hostPile||[]);
+  const gBD = calcPileBreakdown(d.guestPile||[]);
+  const hSuherCount=(d.hostSuher||0)/5;
+  const gSuherCount=(d.guestSuher||0)/5;
+  const hSuherFinal=suherCancelled?Math.max(0,hSuherCount-cancelCount):hSuherCount;
+  const gSuherFinal=suherCancelled?Math.max(0,gSuherCount-cancelCount):gSuherCount;
+  const rn = d.roundNum||1;
+  const isFinal = ht>=78||gt>=78;
+
+  function playerCard(name, bd, suherCount, suherFinal, roundPts, totalPts, cancelled){
+    const v=(val,zero)=>`<span class="re-item-val ${val>0?'got':'zero'}">${val>0?'+'+val+' pts':'—'}</span>`;
+    return `<div class="re-player">
+      <div class="re-pname">${name}</div>
+      <div class="re-item"><span class="re-item-label">♣ Clubs (${bd.clubs}/13)</span>${bd.clubsPts>0?'<span class="re-item-val got">+13 pts ✓</span>':'<span class="re-item-val zero">${bd.clubs}/13 — need '+(7-bd.clubs)+' more</span>'}</div>
+      <div class="re-item"><span class="re-item-label">🂡 Aces (×${bd.aces})</span>${v(bd.acesPts)}</div>
+      <div class="re-item"><span class="re-item-label">🃏 Jacks (×${bd.jacks})</span>${v(bd.jacksPts)}</div>
+      <div class="re-item"><span class="re-item-label">10♦ (×${bd.tenDiamonds})</span>${v(bd.tenDiamondsPts)}</div>
+      <div class="re-item"><span class="re-item-label">2♣ (×${bd.twoClubs})</span>${v(bd.twoClubsPts)}</div>
+      <div class="re-item"><span class="re-item-label">⭐ Suhèr (×${suherCount}${cancelled&&suherCount>0?' → ×'+suherFinal:''})</span>
+        <span class="re-item-val ${suherFinal>0?'got':suherCount>0?'zero':''}">${suherFinal>0?'+'+suherFinal*5+' pts':suherCount>0?'CANCELLED':'—'}</span></div>
+      <div class="re-total">
+        <span class="re-total-label">THIS ROUND</span>
+        <span class="re-total-val">+${roundPts} pts</span>
+      </div>
+    </div>`;
+  }
+
+  const cancelBanner = suherCancelled
+    ? `<div class="re-suher-cancel">⚠ ${cancelCount} Suhèr cancelled on each side</div>` : '';
+
+  const html = `
+    <div class="re-title">ROUND ${rn} OVER</div>
+    <div class="re-round">POINTS BREAKDOWN</div>
+    <div class="re-players">
+      ${playerCard(hn, hBD, hSuherCount, hSuherFinal, hp, ht, suherCancelled)}
+      ${playerCard(gn, gBD, gSuherCount, gSuherFinal, gp, gt, suherCancelled)}
+    </div>
+    ${cancelBanner}
+    <div class="re-total-score">
+      <div class="re-tscore-block">
+        <div class="re-tscore-name">${hn}</div>
+        <div class="re-tscore-pts">${ht}</div>
+      </div>
+      <div class="re-tscore-vs">TOTAL</div>
+      <div class="re-tscore-block">
+        <div class="re-tscore-name">${gn}</div>
+        <div class="re-tscore-pts">${gt}</div>
+      </div>
+    </div>
+    <div class="re-next">${isFinal?"⚠ FINAL STRETCH — live points active!":"Next round starting..."}</div>`;
+
+  document.getElementById("re-wrap").innerHTML = html;
+  show("screen-roundend");
 }
 
 async function endGame(d){
@@ -1020,23 +1232,21 @@ function cardPtLabel(card){
 
 function calcPileBreakdown(pile){
   const p = pile||[];
-  const spades = p.filter(c=>c.s==='♠').length;
+  const clubs = p.filter(c=>c.s==='♣').length;
   const aces = p.filter(c=>c.r==='A');
   const jacks = p.filter(c=>c.r==='J');
   const twoClubs = p.filter(c=>c.r==='2'&&c.s==='♣');
   const tenDiamonds = p.filter(c=>c.r==='10'&&c.s==='♦');
 
-  let pts = 0;
-  const spadesPts = spades>=7 ? 13 : 0;
+  const clubsPts = clubs>=7 ? 13 : 0;
   const acesPts = aces.length;
   const jacksPts = jacks.length;
   const twoClubsPts = twoClubs.length * 2;
   const tenDiamondsPts = tenDiamonds.length * 3;
-
-  pts = spadesPts + acesPts + jacksPts + twoClubsPts + tenDiamondsPts;
+  const pts = clubsPts + acesPts + jacksPts + twoClubsPts + tenDiamondsPts;
 
   return {
-    pts, spades, spadesPts,
+    pts, clubs, clubsPts,
     aces: aces.length, acesPts,
     jacks: jacks.length, jacksPts,
     twoClubs: twoClubs.length, twoClubsPts,
@@ -1067,8 +1277,8 @@ function renderAdminLive(){
       <div class="admin-sh">${name.toUpperCase()} — FULL BREAKDOWN</div>
       <div class="admin-card">
         <div class="admin-row">
-          <span class="admin-label">♠ Spades collected</span>
-          <span class="admin-val ${bd.spades>=7?'green':''}">${bd.spades} / 13 ${bd.spades>=7?'→ +13 pts ✓':'→ need '+(7-bd.spades)+' more'}</span>
+          <span class="admin-label">♣ Clubs collected</span>
+          <span class="admin-val ${bd.clubs>=7?'green':''}">${bd.clubs} / 13 ${bd.clubs>=7?'→ +13 pts ✓':'→ need '+(7-bd.clubs)+' more'}</span>
         </div>
         <div class="admin-row">
           <span class="admin-label">🂡 Aces (×${bd.aces})</span>
@@ -1271,6 +1481,11 @@ onAuthStateChanged(auth,async user=>{
   }
 });
 </script>
+<!-- ROUND END SCREEN -->
+<div class="screen" id="screen-roundend">
+  <div class="re-wrap" id="re-wrap"></div>
+</div>
+
 <!-- ADMIN BUTTON (only for admins, shown on home/game screens) -->
 <div class="admin-btn" id="admin-btn" onclick="window.openAdmin()" title="Admin Panel">⚙</div>
 
