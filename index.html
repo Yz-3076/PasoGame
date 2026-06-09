@@ -690,8 +690,31 @@ async function dealCards(d){
     if(deck.length<12){await tallyRound(d);return;}
     const df=d.dealFirst||"opponent";
     let h1,tbl,h2;
-    if(df==="opponent"){h1=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];tbl=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];h2=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];}
-    else{tbl=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];h1=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];h2=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];}
+
+    // Deal table cards - no Jacks allowed on table at start
+    function dealTableNoJack(dk){
+      let attempt = [];
+      let extras = []; // jacks we pulled out go back to deck
+      // Pull cards until we have 4 non-Jacks
+      while(attempt.length < 4 && dk.length > 0){
+        const c = dk.pop();
+        if(c.r === 'J'){ extras.push(c); } // put Jack aside
+        else { attempt.push(c); }
+      }
+      // Put Jacks back at bottom of deck
+      extras.forEach(c => dk.unshift(c));
+      return attempt;
+    }
+
+    if(df==="opponent"){
+      h1=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];
+      tbl=dealTableNoJack(deck);
+      h2=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];
+    } else {
+      tbl=dealTableNoJack(deck);
+      h1=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];
+      h2=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];
+    }
     const hostHand=dealer==="host"?h2:h1;
     const guestHand=dealer==="guest"?h2:h1;
     await update(roomRef,{deck,hostHand,guestHand,tableCards:tbl,tableReady:true,turn:nonDealer,phase:"playing",lastCapturerRole:"",lastMove:null});
@@ -848,11 +871,21 @@ async function dropCard(){
 
 async function tallyRound(d){
   if(myRole!=="host")return;
-  const hPts=calcRoundPts(d.hostPile||[])+(d.hostSuher||0);
-  const gPts=calcRoundPts(d.guestPile||[])+(d.guestSuher||0);
+  // Suhèr offsets — each cancels one from the other side
+  const hSuherRaw = d.hostSuher||0;  // stored as points (multiples of 5)
+  const gSuherRaw = d.guestSuher||0;
+  const hSuherCount = hSuherRaw / 5;
+  const gSuherCount = gSuherRaw / 5;
+  const cancelCount = Math.min(hSuherCount, gSuherCount);
+  const hSuherFinal = (hSuherCount - cancelCount) * 5;
+  const gSuherFinal = (gSuherCount - cancelCount) * 5;
+  const bothDidSuher = cancelCount > 0;
+
+  const hPts=calcRoundPts(d.hostPile||[])+hSuherFinal;
+  const gPts=calcRoundPts(d.guestPile||[])+gSuherFinal;
   const newHP=(d.hostPoints||0)+hPts;
   const newGP=(d.guestPoints||0)+gPts;
-  showRoundEnd(d.host,hPts,newHP,d.guest,gPts,newGP);
+  showRoundEnd(d.host,hPts,newHP,d.guest,gPts,newGP,bothDidSuher,cancelCount);
   await new Promise(r=>setTimeout(r,3500));
   document.getElementById("round-modal").classList.remove("open");
   const newDealer=d.dealerRole==="host"?"guest":"host";
@@ -864,8 +897,9 @@ async function tallyRound(d){
   const nextRound = (d.roundNum||1)+1;
   await update(roomRef,{deck:buildDeck(),hostHand:[],guestHand:[],tableCards:[],tableReady:false,hostPile:[],guestPile:[],hostSuher:0,guestSuher:0,hostPoints:newHP,guestPoints:newGP,dealerRole:newDealer,phase:"coin_flip",coinPick:"",coinResult:"",dealFirst:"",lastCapturerRole:"",lastMove:null,roundNum:nextRound,coinAnimDone:false});
 }
-function showRoundEnd(hn,hp,ht,gn,gp,gt){
-  document.getElementById("recontent").innerHTML=`<div class="rerow"><span>${hn}</span><span class="repts">+${hp} → ${ht} pts</span></div><div class="rerow"><span>${gn}</span><span class="repts">+${gp} → ${gt} pts</span></div>`;
+function showRoundEnd(hn,hp,ht,gn,gp,gt,suherCancelled,cancelCount){
+  const cancelMsg = suherCancelled ? `<div style="font-family:Cinzel,serif;font-size:10px;letter-spacing:1px;color:#ff8080;text-align:center;padding:6px 0;">⚠ Suhèr offset — ${cancelCount} cancelled on each side!</div>` : '';
+  document.getElementById("recontent").innerHTML=cancelMsg+`<div class="rerow"><span>${hn}</span><span class="repts">+${hp} → ${ht} pts</span></div><div class="rerow"><span>${gn}</span><span class="repts">+${gp} → ${gt} pts</span></div>`;
   document.getElementById("renext").textContent=(ht>=78||gt>=78)?"⚠ Final stretch — live points count!":"New round starting...";
   document.getElementById("round-modal").classList.add("open");
 }
@@ -1024,7 +1058,8 @@ function renderAdminLive(){
   const gPts = d.guestPoints||0;
   const roundNum = d.roundNum||1;
 
-  function breakdown(name, bd, suher){
+  const bothDidSuher = hSuher>0 && gSuher>0;
+  function breakdown(name, bd, suher, suherCancelled){
     const total = bd.pts + suher;
     const pct = Math.min(total/26*100,100).toFixed(0);
     return `
@@ -1053,12 +1088,12 @@ function renderAdminLive(){
         </div>
         <div class="admin-row">
           <span class="admin-label">⭐ Suhèr bonus</span>
-          <span class="admin-val ${suher>0?'green':''}">${suher>0?'+'+suher+' pts ('+suher/5+'×)':'0 pts'}</span>
+          <span class="admin-val ${suher>0?'green':suherCancelled?'red':''}">${suher>0?'+'+suher+' pts ('+suher/5+'×)':suherCancelled?'CANCELLED (both did it)':'0 pts'}</span>
         </div>
         <div style="border-top:1px solid rgba(200,0,0,0.15);margin-top:8px;padding-top:8px;">
           <div class="admin-row">
             <span class="admin-label" style="font-size:11px;color:rgba(255,180,180,0.7);">TOTAL THIS ROUND</span>
-            <span class="admin-val red" style="font-size:15px;">${total} / 26 pts (${pct}%)</span>
+            <span class="admin-val red" style="font-size:15px;">${total} pts (max 26+suhèr)</span>
           </div>
           <div class="admin-progress"><div class="admin-progress-fill" style="width:${pct}%"></div></div>
         </div>
@@ -1089,8 +1124,8 @@ function renderAdminLive(){
     </div>
   </div>
 
-  ${breakdown(d.host, hp, hSuher)}
-  ${breakdown(d.guest||'Guest', gp, gSuher)}
+  ${breakdown(d.host, hp, hSuher, bothDidSuher)}
+  ${breakdown(d.guest||'Guest', gp, gSuher, bothDidSuher)}
 
   <div class="admin-section">
     <div class="admin-sh">LAST MOVE</div>
