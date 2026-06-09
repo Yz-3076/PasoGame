@@ -80,24 +80,25 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
 .mbox{background:#1a0000;border:1px solid rgba(180,0,0,0.4);border-radius:20px;padding:42px 46px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;max-width:350px;width:90%;box-shadow:0 0 50px rgba(180,0,0,0.25);}
 .mtitle{font-family:"Cinzel",serif;font-size:19px;letter-spacing:4px;color:#cc0000;}
 .msub{font-family:"Cinzel",serif;font-size:11px;letter-spacing:2px;color:rgba(200,100,100,0.45);}
-.coin-wrap{width:120px;height:120px;perspective:600px;margin:8px auto;}
-.coin{width:120px;height:120px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:56px;background:radial-gradient(circle at 35% 35%,#ff4444,#8b0000 60%,#4a0000);border:4px solid rgba(255,150,150,0.4);box-shadow:0 0 40px rgba(200,0,0,0.5),inset 0 2px 4px rgba(255,255,255,0.2);transform-style:preserve-3d;}
-.coin.flipping{animation:coinFlip3d 2s ease-out forwards;}
+.mbox{background:#1a0000;border:1px solid rgba(180,0,0,0.4);border-radius:20px;padding:42px 46px;text-align:center;display:flex;flex-direction:column;align-items:center;gap:16px;max-width:350px;width:90%;box-shadow:0 0 50px rgba(180,0,0,0.25);}
+.coin-wrap{width:140px;height:140px;perspective:800px;margin:4px auto;display:flex;align-items:center;justify-content:center;}
+.coin{width:130px;height:130px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:62px;background:radial-gradient(circle at 35% 35%,#ff5555,#8b0000 60%,#3a0000);border:4px solid rgba(255,150,150,0.35);box-shadow:0 0 50px rgba(200,0,0,0.45),inset 0 2px 6px rgba(255,255,255,0.15);transform-style:preserve-3d;transition:transform 0.05s;}
+.coin.flipping{animation:coinFlip3d 2.2s cubic-bezier(.4,0,.2,1) forwards;}
 @keyframes coinFlip3d{
   0%  {transform:rotateX(0deg) scale(1);}
-  10% {transform:rotateX(720deg) scale(1.1);}
-  25% {transform:rotateX(1440deg) scale(1.15);}
-  45% {transform:rotateX(1980deg) scale(1.1);}
-  65% {transform:rotateX(2340deg) scale(1.05);}
-  80% {transform:rotateX(2580deg) scale(1.02);}
-  90% {transform:rotateX(2700deg) scale(1.01);}
-  100%{transform:rotateX(2880deg) scale(1);}
+  15% {transform:rotateX(900deg) scale(1.12);}
+  35% {transform:rotateX(1800deg) scale(1.15);}
+  55% {transform:rotateX(2520deg) scale(1.08);}
+  75% {transform:rotateX(3060deg) scale(1.03);}
+  90% {transform:rotateX(3240deg) scale(1.01);}
+  100%{transform:rotateX(3600deg) scale(1);}
 }
-.coin-land{animation:coinLand .4s cubic-bezier(.34,1.56,.64,1) forwards;}
-@keyframes coinLand{0%{transform:scale(0.8);}60%{transform:scale(1.15);}100%{transform:scale(1);}}
-.cbtns{display:flex;gap:10px;}
+.coin-land{animation:coinLand .5s cubic-bezier(.34,1.56,.64,1) forwards;}
+@keyframes coinLand{0%{transform:scale(0.7);}50%{transform:scale(1.2);}100%{transform:scale(1);}}
+.cbtns{display:flex;gap:12px;justify-content:center;width:100%;}
+.cbtn{flex:1;max-width:130px;}
 /* deal animation */
-.deal-anim{font-family:"Cinzel",serif;font-size:13px;letter-spacing:2px;color:#e0b0b0;text-align:center;min-height:40px;display:flex;align-items:center;justify-content:center;}
+.deal-anim{font-family:"Cinzel",serif;font-size:13px;letter-spacing:2px;color:#e0b0b0;text-align:center;min-height:44px;display:flex;align-items:center;justify-content:center;}
 .deal-step{animation:dealStep .5s ease-out;}
 @keyframes dealStep{0%{opacity:0;transform:translateY(10px);}100%{opacity:1;transform:translateY(0);}}
 .cbtn{padding:12px 22px;border-radius:11px;border:none;font-family:"Cinzel",serif;font-size:11px;letter-spacing:2px;cursor:pointer;transition:all .2s;}
@@ -292,18 +293,19 @@ body{background:#0d0000;font-family:"Crimson Text",serif;min-height:100vh;displa
 </div></div>
 
 <div class="overlay" id="coin-modal">
-<div class="mbox">
-<div class="mtitle" id="ctitle">COIN FLIP</div>
-<div class="msub" id="csub">Pick a side!</div>
-<div class="coin-wrap">
-  <div class="coin" id="coin">🪙</div>
+<div class="mbox" style="min-width:320px;">
+  <div class="mtitle" id="ctitle" style="text-align:center;width:100%;">COIN FLIP</div>
+  <div class="msub" id="csub" style="text-align:center;width:100%;">Pick a side!</div>
+  <div class="coin-wrap">
+    <div class="coin" id="coin">🪙</div>
+  </div>
+  <div class="cbtns" id="cbtns" style="width:100%;display:flex;gap:12px;justify-content:center;">
+    <button class="cbtn cbtn-h" onclick="window.pickCoin('heads')" style="flex:1;">😊<br>HEADS</button>
+    <button class="cbtn cbtn-t" onclick="window.pickCoin('tails')" style="flex:1;">🐸<br>TAILS</button>
+  </div>
+  <div id="cres" style="display:none;width:100%;text-align:center;font-family:Cinzel,serif;font-size:13px;letter-spacing:1px;color:#e0b0b0;"></div>
 </div>
-<div class="cbtns" id="cbtns">
-  <button class="cbtn cbtn-h" onclick="window.pickCoin('heads')">😊 HEADS</button>
-  <button class="cbtn cbtn-t" onclick="window.pickCoin('tails')">🐸 TAILS</button>
 </div>
-<div class="cres" id="cres" style="display:none;font-family:Cinzel,serif;font-size:14px;letter-spacing:2px;color:#e0b0b0;text-align:center;"></div>
-</div></div>
 
 <div class="overlay" id="deal-modal">
 <div class="mbox">
@@ -656,6 +658,7 @@ function startListening(){
 
 function handlePhase(d){
   if(d.phase==="coin_flip"){
+    window._lastRoundEndId = ''; // Reset so next round_end shows
     // Only show coin flip on round 1 - after that dealer just switches
     if((d.roundNum||1)===1){
       doCoin(d);
@@ -671,7 +674,29 @@ function handlePhase(d){
   else if(d.phase==="deal_choice")doDeal(d);
   else if(d.phase==="dealing"){if(myRole==="host")dealCards(d);}
   else if(d.phase==="playing"){showOppMove(d);renderGame(d);}
-  else if(d.phase==="round_end"){if(myRole==="host")tallyRound(d);}
+  else if(d.phase==="round_end"){
+    // Both players show the round end screen
+    // Guard: only show once per round_end trigger
+    const reId = d.roundEndId||'';
+    if(window._lastRoundEndId === reId) return;
+    window._lastRoundEndId = reId;
+
+    // Calculate breakdown for display
+    const _hBD = calcPileBreakdown(d.hostPile||[]);
+    const _gBD = calcPileBreakdown(d.guestPile||[]);
+    const _hSR = d.hostSuher||0; const _gSR = d.guestSuher||0;
+    const _hSC = _hSR/5; const _gSC = _gSR/5;
+    const _cancel = Math.min(_hSC,_gSC);
+    const _hSF = Math.max(0,_hSC-_cancel)*5;
+    const _gSF = Math.max(0,_gSC-_cancel)*5;
+    const _hPts = _hBD.pts + _hSF;
+    const _gPts = _gBD.pts + _gSF;
+    const _newHP = (d.hostPoints||0)+_hPts;
+    const _newGP = (d.guestPoints||0)+_gPts;
+    showRoundEnd(d.host,_hPts,_newHP,d.guest,_gPts,_newGP,_cancel>0,_cancel,d);
+    // Only host does the tally after the screen is shown
+    if(myRole==="host") setTimeout(()=>tallyRound(d), 4800);
+  }
   else if(d.phase==="finished")endGame(d);
 }
 
@@ -706,51 +731,77 @@ function showCoinResult(result, iWon){
 
 function doCoin(d){
   document.getElementById("coin-modal").classList.add("open");
-  document.getElementById("coin").classList.remove("coin-result-big");
+  document.getElementById("coin").classList.remove("flipping","coin-land");
 
+  // STATE 1: Nobody picked yet — host picks, guest waits
   if(!d.coinPick){
+    document.getElementById("ctitle").textContent = "COIN FLIP";
+    document.getElementById("cres").style.display = "none";
+    document.getElementById("coin").textContent = "🪙";
     if(myRole==="host"){
-      document.getElementById("ctitle").textContent="COIN FLIP";
-      document.getElementById("csub").textContent="Pick a side — you go first!";
-      document.getElementById("cbtns").style.display="flex";
-      document.getElementById("cres").style.display="none";
-      document.getElementById("coin").textContent="🪙";
+      document.getElementById("csub").textContent = "Pick a side!";
+      document.getElementById("cbtns").style.display = "flex";
     } else {
-      document.getElementById("ctitle").textContent="COIN FLIP";
-      document.getElementById("csub").textContent="Waiting for opponent to pick...";
-      document.getElementById("cbtns").style.display="none";
-      document.getElementById("cres").style.display="none";
-      document.getElementById("coin").textContent="🪙";
+      document.getElementById("csub").textContent = "Opponent is picking a side...";
+      document.getElementById("cbtns").style.display = "none";
     }
-  } else if(d.coinPick && !d.coinResult && myRole==="host" && !coinAnimating){
-    coinAnimating = true;
-    document.getElementById("cbtns").style.display="none";
-    document.getElementById("csub").textContent="Flipping...";
-    const result = Math.random()<0.5?"heads":"tails";
-    const hostWon = result===d.coinPick;
-    const dealerRole = hostWon?"guest":"host";
-    animateCoin(result, async()=>{
-      coinAnimating = false;
-      const iWon = hostWon;
-      showCoinResult(result, iWon);
-      await update(roomRef,{coinResult:result,dealerRole,phase:"deal_choice"});
-      setTimeout(()=>{
-        document.getElementById("coin-modal").classList.remove("open");
-      },2800);
-    });
-  } else if(d.coinResult && myRole==="guest"){
-    const iWon = d.dealerRole!==myRole;
-    document.getElementById("cbtns").style.display="none";
+    return;
+  }
+
+  // STATE 2: coinPick set but no result yet — BOTH players animate simultaneously
+  if(d.coinPick && !d.coinResult){
+    document.getElementById("cbtns").style.display = "none";
+    document.getElementById("csub").textContent = "Flipping...";
+    document.getElementById("cres").style.display = "none";
+
     if(!coinAnimating){
       coinAnimating = true;
-      document.getElementById("csub").textContent="Flipping...";
-      animateCoin(d.coinResult, ()=>{
+      // Both players see the same animation at the same time
+      // Host also computes result and writes it after animation
+      const result = myRole==="host"
+        ? (Math.random()<0.5?"heads":"tails")
+        : null; // guest doesn't know result yet, plays animation blind
+
+      const el = document.getElementById("coin");
+      el.textContent = "🪙";
+      void el.offsetWidth;
+      el.classList.add("flipping");
+
+      setTimeout(async()=>{
+        el.classList.remove("flipping");
         coinAnimating = false;
-        showCoinResult(d.coinResult, iWon);
-        setTimeout(()=>{
-          document.getElementById("coin-modal").classList.remove("open");
-        },2800);
-      });
+
+        if(myRole==="host"){
+          // Host writes result after animation
+          const hostWon = result===d.coinPick;
+          const dealerRole = hostWon?"guest":"host";
+          el.textContent = result==="heads"?"😊":"🐸";
+          el.classList.add("coin-land");
+          const iWon = hostWon;
+          showCoinResult(result, iWon);
+          await update(roomRef,{coinResult:result,dealerRole,phase:"deal_choice"});
+          setTimeout(()=>document.getElementById("coin-modal").classList.remove("open"),3000);
+        }
+        // Guest waits for Firebase to give them the result (STATE 3)
+      }, 2200);
+    }
+    return;
+  }
+
+  // STATE 3: coinResult is set — guest sees result (host already closed modal)
+  if(d.coinResult){
+    document.getElementById("cbtns").style.display = "none";
+    const iWon = d.dealerRole !== myRole;
+    const el = document.getElementById("coin");
+
+    if(!coinAnimating && myRole==="guest"){
+      // Guest may have just received the result mid-animation or after
+      // If animation already done, just show result directly
+      el.classList.remove("flipping");
+      el.textContent = d.coinResult==="heads"?"😊":"🐸";
+      el.classList.add("coin-land");
+      showCoinResult(d.coinResult, iWon);
+      setTimeout(()=>document.getElementById("coin-modal").classList.remove("open"),3000);
     }
   }
 }
@@ -811,7 +862,7 @@ async function dealCards(d){
   const dealer=d.dealerRole||"guest";
   const nonDealer=dealer==="host"?"guest":"host";
   if(!d.tableReady){
-    if(deck.length<12){await tallyRound(d);return;}
+    if(deck.length<12){await update(roomRef,{phase:"round_end",roundEndId:Date.now().toString()});return;}
     const df=d.dealFirst||"opponent";
     let h1,tbl,h2;
 
@@ -844,7 +895,7 @@ async function dealCards(d){
     await update(roomRef,{deck,hostHand,guestHand,tableCards:tbl,tableReady:true,turn:nonDealer,phase:"playing",lastCapturerRole:"",lastMove:null,
       hostStartPts:d.hostPoints||0,guestStartPts:d.guestPoints||0});
   } else {
-    if(deck.length<8){await tallyRound(d);return;}
+    if(deck.length<8){await update(roomRef,{phase:"round_end",roundEndId:Date.now().toString()});return;}
     const h1=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];
     const h2=[deck.pop(),deck.pop(),deck.pop(),deck.pop()];
     const hostHand=dealer==="host"?h2:h1;
@@ -950,8 +1001,9 @@ function selTable(idx){
 }
 function updateBtns(){
   const cb=document.getElementById("bconf"),db2=document.getElementById("bdrop");
-  if(!G||G.turn!==myRole||G.phase!=="playing"||animating||selH<0){cb.style.display="none";db2.style.display="none";return;}
-  db2.style.display="inline-block";
+  if(!G||G.turn!==myRole||G.phase!=="playing"||animating){cb.style.display="none";db2.style.display="none";return;}
+  // Show drop only when a card is selected
+  db2.style.display=selH>=0?"inline-block":"none";
   if(selT.length>0){const myH=myRole==="host"?(G.hostHand||[]):(G.guestHand||[]);const tcs=G.tableCards||[];cb.style.display=canCap(myH[selH],selT.map(i=>tcs[i]))?"inline-block":"none";}
   else cb.style.display="none";
 }
@@ -1045,9 +1097,8 @@ async function tallyRound(d){
   const gPts=calcRoundPts(d.guestPile||[])+gSuherFinal;
   const newHP=(d.hostPoints||0)+hPts;
   const newGP=(d.guestPoints||0)+gPts;
-  showRoundEnd(d.host,hPts,newHP,d.guest,gPts,newGP,bothDidSuher,cancelCount,d);
-  await new Promise(r=>setTimeout(r,4500));
-  show("screen-game");
+  // Screen already shown by handlePhase for both players
+  // Just wait for the screen timer then update
   const newDealer=d.dealerRole==="host"?"guest":"host";
   if(newHP>=104||newGP>=104){
     const winner=newHP>=newGP?d.host:d.guest;
@@ -1071,23 +1122,28 @@ function showRoundEnd(hn,hp,ht,gn,gp,gt,suherCancelled,cancelCount,roundData){
   const isFinal = ht>=78||gt>=78;
 
   function playerCard(name, bd, suherCount, suherFinal, roundPts, totalPts, cancelled){
-    const v=(val,zero)=>`<span class="re-item-val ${val>0?'got':'zero'}">${val>0?'+'+val+' pts':'—'}</span>`;
-    return `<div class="re-player">
-      <div class="re-pname">${name}</div>
-      <div class="re-item"><span class="re-item-label">♣ Clubs (${bd.clubs}/13)</span>${bd.clubsPts>0?'<span class="re-item-val got">+13 pts ✓</span>':'<span class="re-item-val zero">${bd.clubs}/13 — need '+(7-bd.clubs)+' more</span>'}</div>
-      <div class="re-item"><span class="re-item-label">🂡 Aces (×${bd.aces})</span>${v(bd.acesPts)}</div>
-      <div class="re-item"><span class="re-item-label">🃏 Jacks (×${bd.jacks})</span>${v(bd.jacksPts)}</div>
-      <div class="re-item"><span class="re-item-label">10♦ (×${bd.tenDiamonds})</span>${v(bd.tenDiamondsPts)}</div>
-      <div class="re-item"><span class="re-item-label">2♣ (×${bd.twoClubs})</span>${v(bd.twoClubsPts)}</div>
-      <div class="re-item"><span class="re-item-label">⭐ Suhèr (×${suherCount}${cancelled&&suherCount>0?' → ×'+suherFinal:''})</span>
-        <span class="re-item-val ${suherFinal>0?'got':suherCount>0?'zero':''}">${suherFinal>0?'+'+suherFinal*5+' pts':suherCount>0?'CANCELLED':'—'}</span></div>
-      <div class="re-total">
-        <span class="re-total-label">THIS ROUND</span>
-        <span class="re-total-val">+${roundPts} pts</span>
-      </div>
-    </div>`;
+    const clubs = bd.clubs||0;
+    const clubsLine = bd.clubsPts>0
+      ? '<span class="re-item-val got">+13 pts ✓</span>'
+      : '<span class="re-item-val zero">'+clubs+'/13 — need '+(7-clubs)+' more</span>';
+    const aceLine   = bd.acesPts>0      ? '<span class="re-item-val got">+'+bd.acesPts+' pts</span>'       : '<span class="re-item-val zero">—</span>';
+    const jackLine  = bd.jacksPts>0     ? '<span class="re-item-val got">+'+bd.jacksPts+' pts</span>'      : '<span class="re-item-val zero">—</span>';
+    const tenLine   = bd.tenDiamondsPts>0?'<span class="re-item-val got">+'+bd.tenDiamondsPts+' pts</span>':'<span class="re-item-val zero">—</span>';
+    const twoLine   = bd.twoClubsPts>0  ? '<span class="re-item-val got">+'+bd.twoClubsPts+' pts</span>'   : '<span class="re-item-val zero">—</span>';
+    const suherTxt  = suherFinal>0 ? '+'+suherFinal*5+' pts' : (suherCount>0&&cancelled ? 'CANCELLED' : '—');
+    const suherCls  = suherFinal>0 ? 'got' : (suherCount>0&&cancelled ? 'zero' : 'zero');
+    const suherLabel= 'Suhèr (×'+suherCount+(cancelled&&suherCount>0?' → ×'+suherFinal:'')+')';
+    return '<div class="re-player">'
+      +'<div class="re-pname">'+name+'</div>'
+      +'<div class="re-item"><span class="re-item-label">♣ Clubs ('+clubs+'/13)</span>'+clubsLine+'</div>'
+      +'<div class="re-item"><span class="re-item-label">Aces (×'+bd.aces+')</span>'+aceLine+'</div>'
+      +'<div class="re-item"><span class="re-item-label">Jacks (×'+bd.jacks+')</span>'+jackLine+'</div>'
+      +'<div class="re-item"><span class="re-item-label">10♦ (×'+bd.tenDiamonds+')</span>'+tenLine+'</div>'
+      +'<div class="re-item"><span class="re-item-label">2♣ (×'+bd.twoClubs+')</span>'+twoLine+'</div>'
+      +'<div class="re-item"><span class="re-item-label">⭐ '+suherLabel+'</span><span class="re-item-val '+suherCls+'">'+suherTxt+'</span></div>'
+      +'<div class="re-total"><span class="re-total-label">THIS ROUND</span><span class="re-total-val">+'+roundPts+' pts</span></div>'
+      +'</div>';
   }
-
   const cancelBanner = suherCancelled
     ? `<div class="re-suher-cancel">⚠ ${cancelCount} Suhèr cancelled on each side</div>` : '';
 
