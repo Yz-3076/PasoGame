@@ -1074,7 +1074,7 @@ function renderAdminLive(){
       <div class="admin-row"><span class="admin-label">Phase</span><span class="admin-val">${d.phase||'—'}</span></div>
       <div class="admin-row"><span class="admin-label">Current turn</span><span class="admin-val red">${d.turn==='host'?d.host:d.guest||'?'}</span></div>
       <div class="admin-row"><span class="admin-label">Table cards</span><span class="admin-val">${(d.tableCards||[]).map(c=>c.r+c.s).join(' · ')||'empty'}</span></div>
-      <div class="admin-row"><span class="admin-label">Last capturer</span><span class="admin-val">${d.lastCapturerRole??(d.lastCapturerRole==='host'?d.host:d.guest||'none'):'none'}</span></div>
+      <div class="admin-row"><span class="admin-label">Last capturer</span><span class="admin-val">${d.lastCapturerRole?(d.lastCapturerRole==='host'?d.host:d.guest||'?'):'none'}</span></div>
     </div>
   </div>
 
